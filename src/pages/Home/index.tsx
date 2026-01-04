@@ -4,28 +4,26 @@ import { useState, useCallback } from "react";
 
 import useImages from "~/hooks/useImages";
 
-import { Box, CircularProgress, Grid } from "@mui/material";
+import { ImageList, ImageListItem } from "@mui/material";
 import LoadingCircular from "~/components/LoadingCircular";
-import InfiniteScroll from "react-infinite-scroll-component";
 import { useImageMutation } from "~/hooks/useImageMutation";
-import { type Paging } from "~/types";
-import Image from "~/components/Image";
+import { Paging } from "~/types";
 import { useRecoilValue } from "recoil";
 import { userState } from "~/atoms";
 import NoData from "~/components/NoData";
+import { BASE_URL } from "~/config/config";
 
 function Home() {
   const user = useRecoilValue(userState);
   const [allImages, setAllImages] = useState([]);
   const [paging, setPaging] = useState<Paging>({ page: 1, size: 10 });
-  const {
-    data: results,
-    isInitialLoading,
-    error,
-  } = useImages({
+  const { data, isInitialLoading, error } = useImages({
     page: paging?.page,
     size: paging?.size,
   });
+
+  const items = data?.data;
+  console.log("🚀 ~ Home ~ items:", items);
   const { mDelete } = useImageMutation();
 
   const handleDelete = useCallback(async (_id: string) => {
@@ -50,45 +48,35 @@ function Home() {
     return <LoadingCircular fullHeight />;
   }
 
-  if (!results?.length) {
+  if (!items?.length) {
     return <NoData />;
   }
 
   return (
     <>
-      {/* <Counter /> */}
-      <InfiniteScroll
-        dataLength={results?.length}
-        next={() => {
-          console.log(123456);
+      {/* <Grid container>
+        {items?.map((_item: any, i: number) => {
+          return (
+            <Grid key={_item.id} size={{ xs: 12, md: 4 }}>
+              <Image user={user} handleDelete={handleDelete} data={_item} />
+            </Grid>
+          );
+        })}
+      </Grid> */}
 
-          return setPaging((prev) => ({
-            ...prev,
-            size: prev?.size + 10,
-          }));
-        }}
-        style={{ display: "flex", flexDirection: "column-reverse" }} //To put endMessage and loader to the top.
-        inverse={true} //
-        hasMore={false}
-        // scrollThreshold={0}
-        loader={<LoadingCircular />}
-        height={"100%"}
-        hasChildren={!!results?.length}
-      >
-        <Grid container>
-          {results?.map((singleData: any, i: number) => {
-            return (
-              <Grid key={singleData._id} size={{ xs: 12, md: 4 }}>
-                <Image
-                  user={user}
-                  handleDelete={handleDelete}
-                  singleData={singleData}
-                />
-              </Grid>
-            );
-          })}
-        </Grid>
-      </InfiniteScroll>
+      <ImageList variant="masonry" cols={3} gap={8}>
+        {items.map((_item: any) => (
+          <ImageListItem key={_item.id}>
+            <img
+              // srcSet={`${_item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+              srcSet={`${BASE_URL}/v1/image/file/${_item?.id}`}
+              src={`${BASE_URL}/v1/image/file/${_item?.id}`}
+              alt={_item.name}
+              loading="lazy"
+            />
+          </ImageListItem>
+        ))}
+      </ImageList>
     </>
   );
 }

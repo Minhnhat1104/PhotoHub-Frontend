@@ -1,18 +1,26 @@
-import { Box, Button, IconButton, Stack, Switch, Typography, useTheme } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage, faUpload } from '@fortawesome/free-solid-svg-icons';
-import Logo from '~/assets/img/logo';
-import React, { useState } from 'react';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import useConfig from '~/hooks/useConfig';
-import Write from '~/pages/Write';
-import { defaultLayoutHeaderHeight, defaultLayoutWidth } from '~/config/config';
-import { useAuthMutation } from '~/hooks/useAuthMutation';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { userState } from '~/atoms';
-import { Image, Upload } from '@mui/icons-material';
-import { COOKIE_KEY, cookieService } from '~/tools/storages';
+import {
+  Box,
+  Button,
+  IconButton,
+  Stack,
+  Switch,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faImage, faUpload } from "@fortawesome/free-solid-svg-icons";
+import Logo from "~/assets/img/logo";
+import React, { useState } from "react";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import useConfig from "~/hooks/useConfig";
+import Write from "~/pages/Write";
+import { defaultLayoutWidth } from "~/config/config";
+import { useAuthMutation } from "~/hooks/useAuthMutation";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { userState } from "~/atoms";
+import { Image, Upload } from "@mui/icons-material";
+import { COOKIE_KEY, cookieService } from "~/tools/storages";
 
 function Header() {
   const [user, setUser] = useRecoilState(userState);
@@ -26,7 +34,7 @@ function Header() {
     await mUserLogout.mutateAsync({});
     setUser(null);
     cookieService.remove(COOKIE_KEY.REFRESH_TOKEN);
-    navigate('/login');
+    navigate("/login");
   };
 
   return (
@@ -34,8 +42,8 @@ function Header() {
       <Box
         px={2}
         sx={{
-          width: '100%',
-          height: defaultLayoutHeaderHeight,
+          width: "100%",
+          height: 80,
           // position: 'fixed',
           top: 0,
           zIndex: 1,
@@ -47,20 +55,30 @@ function Header() {
           direction="row"
           alignItems="center"
           sx={{
-            margin: 'auto',
+            margin: "auto",
             width: defaultLayoutWidth,
-            maxWidth: '100%',
-            height: '100%',
-            padding: '0 30px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+            maxWidth: "100%",
+            height: "100%",
+            padding: "0 30px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
           }}
         >
           <Link to="/">
-            <Stack direction="row" alignItems="center" spacing={1} height={'100%'}>
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={1}
+              height={"100%"}
+            >
               <Logo />
-              <Typography color="primary" fontWeight="600" fontSize={'20px'} fontStyle={'unset'}>
+              <Typography
+                color="primary"
+                fontWeight="600"
+                fontSize={"20px"}
+                fontStyle={"unset"}
+              >
                 My Blog 2
               </Typography>
             </Stack>
@@ -74,10 +92,11 @@ function Header() {
                 <Image />
               </IconButton>
               <Switch
-                checked={mode === 'light'}
-                onChange={(event: React.ChangeEvent<HTMLInputElement>, checked: boolean) =>
-                  onChangeMode(checked ? 'light' : 'dark')
-                }
+                checked={mode === "light"}
+                onChange={(
+                  event: React.ChangeEvent<HTMLInputElement>,
+                  checked: boolean
+                ) => onChangeMode(checked ? "light" : "dark")}
               />
               <Typography pr={1}>{user.username}</Typography>
               <Button size="medium" variant="outlined" onClick={handleLogout}>
@@ -97,7 +116,9 @@ function Header() {
         </Stack>
       </Box>
 
-      {openWrite && <Write isOpen={openWrite} onClose={() => setOpenWrite(false)} />}
+      {openWrite && (
+        <Write isOpen={openWrite} onClose={() => setOpenWrite(false)} />
+      )}
     </>
   );
 }
