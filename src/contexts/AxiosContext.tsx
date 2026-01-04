@@ -3,13 +3,20 @@ import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { userState } from '~/atoms';
 import axios from '~/tools/axios';
+import { default as originAxios } from 'axios';
 import jwt_decode from 'jwt-decode';
 import { useSnackbar } from '~/hooks/useSnackbar';
 import { Outlet, useNavigate } from 'react-router-dom';
 import LoadingCircular from '~/components/LoadingCircular';
 import { COOKIE_KEY, cookieService } from '~/tools/storages';
+import { BASE_URL } from '~/config/config';
 
 interface AxiosContextProps {}
+
+const refreshAxios = originAxios.create({
+  baseURL: BASE_URL,
+  withCredentials: true,
+});
 
 const AxiosContext = ({}: AxiosContextProps) => {
   const [user, setUser] = useRecoilState(userState);
@@ -58,12 +65,15 @@ const AxiosContext = ({}: AxiosContextProps) => {
           const date = new Date();
           const decodedToken: any = jwt_decode(user?.accessToken);
           if (decodedToken?.exp < date.getTime() / 1000) {
-            const res = await axios.post('/v1/auth/refresh', {
+            const res = await refreshAxios.post('/v1/auth/refresh', {
               // yeu cau co cookie thi gan vao
               withCredentials: true,
             });
 
-            const newUser = { ...user, accessToken: res?.data?.accessToken || '' };
+            const newUser = {
+              ...user,
+              accessToken: res?.data?.accessToken || '',
+            };
 
             setUser(newUser);
             config.headers['token'] = `Bearer ${res?.data?.accessToken}`;
