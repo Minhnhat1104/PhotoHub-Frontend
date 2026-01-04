@@ -5,7 +5,5 @@ import { type DefaultConfigProps } from "~/themes/types/config";
 
 export const configAtom = atom<DefaultConfigProps>({
   key: "configAtom",
-  default: {
-    ...config,
-  } as DefaultConfigProps,
+  default: config,
 });
