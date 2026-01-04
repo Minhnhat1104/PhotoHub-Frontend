@@ -1,10 +1,23 @@
-import { PalettesProps } from '@ant-design/colors';
-import { PaletteColorOptions } from '@mui/material/styles';
+import { type PalettesProps } from "@ant-design/colors";
+import { type PaletteColorOptions } from "@mui/material/styles";
 
-import { PaletteThemeProps } from '~/themes/types/theme';
+import { type PaletteThemeProps } from "~/themes/types/theme";
 
 const Default = (colors: PalettesProps): PaletteThemeProps => {
-  const { blue, red, gold, cyan, green, grey, magenta, purple, orange, yellow, lime, volcano } = colors;
+  const {
+    blue,
+    red,
+    gold,
+    cyan,
+    green,
+    grey,
+    magenta,
+    purple,
+    orange,
+    yellow,
+    lime,
+    volcano,
+  } = colors;
   const greyColors: PaletteColorOptions = {
     0: grey[0],
     50: grey[1],
@@ -24,7 +37,7 @@ const Default = (colors: PalettesProps): PaletteThemeProps => {
     A700: grey[14],
     A800: grey[16],
   };
-  const contrastText = '#fff';
+  const contrastText = "#fff";
 
   return {
     primary: {
@@ -143,7 +156,7 @@ const Default = (colors: PalettesProps): PaletteThemeProps => {
       darker: volcano[9],
       contrastText,
     },
-    header: '#1e1e1e',
+    header: "#1e1e1e",
     link: blue[5],
   };
 };

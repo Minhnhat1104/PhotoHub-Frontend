@@ -1,11 +1,15 @@
-import { PalettesProps } from '@ant-design/colors';
+import { type PalettesProps } from "@ant-design/colors";
 
-import { PresetColor, ThemeMode } from '~/themes/types/config';
-import { PaletteThemeProps } from '~/themes/types/theme';
+import { type PresetColor, type ThemeMode } from "~/themes/types/config";
+import { type PaletteThemeProps } from "~/themes/types/theme";
 
-import Default from './default';
+import Default from "./default";
 
-const Theme = (colors: PalettesProps, presetColor: PresetColor, mode: ThemeMode): PaletteThemeProps => {
+const Theme = (
+  colors: PalettesProps,
+  presetColor: PresetColor,
+  mode: ThemeMode
+): PaletteThemeProps => {
   return Default(colors);
 };
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 import {
   CloseFullscreen,
@@ -9,9 +9,9 @@ import {
   Minimize,
   MinimizeOutlined,
   X,
-} from '@mui/icons-material';
+} from "@mui/icons-material";
 import {
-  Breakpoint,
+  type Breakpoint,
   Dialog,
   DialogActions,
   DialogContent,
@@ -20,9 +20,9 @@ import {
   IconButton,
   Stack,
   Typography,
-} from '@mui/material';
-import { useTheme } from '@mui/material/styles';
-import { ellipsisSx } from '~/tools/style';
+} from "@mui/material";
+import { useTheme } from "@mui/material/styles";
+import { ellipsisSx } from "~/tools/style";
 
 interface MiModalProps {
   title: string | React.ReactElement;
@@ -41,7 +41,7 @@ const MiModal = (props: MiModalProps) => {
   const theme = useTheme();
 
   const {
-    title = 'New Item',
+    title = "New Item",
     isOpen,
     size,
     children,
@@ -63,8 +63,8 @@ const MiModal = (props: MiModalProps) => {
   });
 
   // default don't close dialog when click backdorp
-  const handleOnClose = (e: any, reason: 'escapeKeyDown' | 'backdropClick') => {
-    if (reason === 'backdropClick' && !isCloseByBackdrop) {
+  const handleOnClose = (e: any, reason: "escapeKeyDown" | "backdropClick") => {
+    if (reason === "backdropClick" && !isCloseByBackdrop) {
       return;
     }
     onClose && onClose(e);
@@ -81,25 +81,32 @@ const MiModal = (props: MiModalProps) => {
       open={isOpen}
       sx={
         miState.isMinimize
-          ? { width: 500, top: 'auto', left: 'auto', bottom: 0, transform: 'none', pointerEvents: 'all' }
+          ? {
+              width: 500,
+              top: "auto",
+              left: "auto",
+              bottom: 0,
+              transform: "none",
+              pointerEvents: "all",
+            }
           : {
-              '& .MuiDialog-paper': {
+              "& .MuiDialog-paper": {
                 p: 0,
                 ...(isMobile
                   ? {
                       mx: 0,
-                      width: '100%',
-                      maxHeight: '100%',
+                      width: "100%",
+                      maxHeight: "100%",
                       borderBottomLeftRadius: 0,
                       borderBottomRightRadius: 0,
                     }
                   : {}),
               },
-              '& .MuiDialog-container': {
-                justifyContent: 'center',
+              "& .MuiDialog-container": {
+                justifyContent: "center",
               },
               top: 0,
-              '.MuiBackdrop-root': { bgcolor: 'rgba(15,21,32,.5)' },
+              ".MuiBackdrop-root": { bgcolor: "rgba(15,21,32,.5)" },
             }
       }
       hideBackdrop={miState.isMinimize}
@@ -109,16 +116,22 @@ const MiModal = (props: MiModalProps) => {
           p: 1,
         }}
       >
-        <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1} sx={{ pl: 1, pr: 0.5 }}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          spacing={1}
+          sx={{ pl: 1, pr: 0.5 }}
+        >
           <Stack direction="row" alignItems="center" minWidth={0}>
-            {typeof title === 'string' ? (
+            {typeof title === "string" ? (
               <Typography
                 variant="h1"
                 sx={{
                   ...ellipsisSx,
                   fontSize: 16,
                   fontWeight: 600,
-                  color: 'inherit',
+                  color: "inherit",
                 }}
               >
                 {title}
@@ -168,7 +181,11 @@ const MiModal = (props: MiModalProps) => {
           {footer && (
             <>
               <Divider />
-              <DialogActions sx={{ p: 1, bgcolor: theme.palette.background.paper }}>{footer}</DialogActions>
+              <DialogActions
+                sx={{ p: 1, bgcolor: theme.palette.background.paper }}
+              >
+                {footer}
+              </DialogActions>
             </>
           )}
         </>

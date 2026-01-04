@@ -1,12 +1,12 @@
-import React from 'react';
-import Home from '~/pages/Home';
-import Login from '~/pages/Login';
-import Register from '~/pages/Register';
-import Update from '~/pages/Update';
-import DefaultLayout from '~/layouts';
-import BackgroundLayout from '~/layouts/BackgroundLayout';
-import { Navigate, RouteObject } from 'react-router-dom';
-import AxiosContext from '~/contexts/AxiosContext';
+import React from "react";
+import Home from "~/pages/Home";
+import Login from "~/pages/Login";
+import Register from "~/pages/Register";
+import Update from "~/pages/Update";
+import DefaultLayout from "~/layouts";
+import BackgroundLayout from "~/layouts/BackgroundLayout";
+import { Navigate, type RouteObject } from "react-router-dom";
+import AxiosContext from "~/contexts/AxiosContext";
 
 const publicRoutes: RouteObject[] = [
   {
@@ -16,11 +16,11 @@ const publicRoutes: RouteObject[] = [
         element: <BackgroundLayout />,
         children: [
           {
-            path: '/login',
+            path: "/login",
             element: <Login />,
           },
           {
-            path: '/register',
+            path: "/register",
             element: <Register />,
           },
         ],
@@ -29,11 +29,11 @@ const publicRoutes: RouteObject[] = [
         element: <DefaultLayout />,
         children: [
           {
-            path: '/update/:_id',
+            path: "/update/:_id",
             element: <Update />,
           },
           {
-            path: '/home',
+            path: "/home",
             element: <Home />,
           },
         ],

@@ -1,8 +1,8 @@
-import { Theme } from '@mui/material/styles';
-import { merge } from 'lodash';
+import { type Theme } from "@mui/material/styles";
+import { merge } from "lodash";
 
 // project import
-import Button from './Button';
+import Button from "./Button";
 
 // ==============================|| OVERRIDES - MAIN ||============================== //
 

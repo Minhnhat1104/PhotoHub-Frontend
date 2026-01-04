@@ -1,11 +1,15 @@
-import React, { ForwardedRef } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDownload, faTrash, faPenNib } from '@fortawesome/free-solid-svg-icons';
+import React, { type ForwardedRef } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faDownload,
+  faTrash,
+  faPenNib,
+} from "@fortawesome/free-solid-svg-icons";
 
-import classNames from 'classnames/bind';
-import style from './Image.module.scss';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
-import { Box, Button, IconButton, Typography, useTheme } from '@mui/material';
+import classNames from "classnames/bind";
+import style from "./Image.module.scss";
+import { type IconProp } from "@fortawesome/fontawesome-svg-core";
+import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
 
 const cx = classNames.bind(style);
 
@@ -21,12 +25,20 @@ function Image(props: ImageProps, ref: ForwardedRef<any>) {
   const theme = useTheme();
 
   return (
-    <Box className={cx('img-fluid')}>
-      <img loading="lazy" className={cx('img')} src={singleData.imageUrl} alt="" />
-      <Box className={cx('overlay')}>
-        <Box className={cx('img-content')}>
-          <Box className={cx('author')}>
-            <Typography className={cx('data-label')} color={theme.palette.common.white}>
+    <Box className={cx("img-fluid")}>
+      <img
+        loading="lazy"
+        className={cx("img")}
+        src={singleData.imageUrl}
+        alt=""
+      />
+      <Box className={cx("overlay")}>
+        <Box className={cx("img-content")}>
+          <Box className={cx("author")}>
+            <Typography
+              className={cx("data-label")}
+              color={theme.palette.common.white}
+            >
               {singleData.author}
             </Typography>
           </Box>
@@ -36,21 +48,26 @@ function Image(props: ImageProps, ref: ForwardedRef<any>) {
             <IconButton
               size="medium"
               color="error"
-              className={cx('delete-btn')}
+              className={cx("delete-btn")}
               onClick={() => handleDelete(singleData._id)}
             >
               <FontAwesomeIcon icon={faTrash as IconProp} />
             </IconButton>
-            <IconButton size="medium" color="success" className={cx('update-btn')} href={`/update/${singleData._id}`}>
+            <IconButton
+              size="medium"
+              color="success"
+              className={cx("update-btn")}
+              href={`/update/${singleData._id}`}
+            >
               <FontAwesomeIcon icon={faPenNib as IconProp} />
             </IconButton>
           </>
         ) : (
-          ''
+          ""
         )}
         <IconButton
           size="medium"
-          className={cx('download-btn')}
+          className={cx("download-btn")}
           href={singleData.imageUrl}
           download={singleData.imageUrl}
           color="secondary"

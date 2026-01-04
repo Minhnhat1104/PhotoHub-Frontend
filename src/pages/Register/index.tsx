@@ -1,9 +1,9 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button, Stack, TextField, Typography, useTheme } from '@mui/material';
-import { useAuthMutation } from '~/hooks/useAuthMutation';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import PasswordInput from '~/components/PasswordInput';
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { Button, Stack, TextField, Typography, useTheme } from "@mui/material";
+import { useAuthMutation } from "~/hooks/useAuthMutation";
+import { type SubmitHandler, useForm } from "react-hook-form";
+import PasswordInput from "~/components/PasswordInput";
 
 type RegisterFormData = {
   email: string;
@@ -32,7 +32,7 @@ function Register() {
       },
       {
         onSuccess: () => {
-          navigate('/login');
+          navigate("/login");
         },
       }
     );
@@ -41,7 +41,15 @@ function Register() {
   return (
     <section>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack sx={{ background: theme.palette.common.white, p: 3, borderRadius: 3, width: 600 }} spacing={3}>
+        <Stack
+          sx={{
+            background: theme.palette.common.white,
+            p: 3,
+            borderRadius: 3,
+            width: 600,
+          }}
+          spacing={3}
+        >
           <Typography variant="h1" fontWeight={500} textAlign="center">
             Register
           </Typography>
@@ -52,7 +60,10 @@ function Register() {
             error={!!errors.email}
             type="email"
             // placeholder="Enter your email"
-            {...register('email', { required: true, pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g })}
+            {...register("email", {
+              required: true,
+              pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
+            })}
           />
           <TextField
             size="medium"
@@ -60,13 +71,13 @@ function Register() {
             helperText={errors.username?.message}
             error={!!errors.username}
             // placeholder="Enter your username"
-            {...register('username', { required: true, maxLength: 50 })}
+            {...register("username", { required: true, maxLength: 50 })}
           />
           <PasswordInput
             label="Password"
             helperText={errors.password?.message}
             error={!!errors.password}
-            {...register('password', { required: true, maxLength: 50 })}
+            {...register("password", { required: true, maxLength: 50 })}
           />
           <Button type="submit" variant="contained">
             Create account

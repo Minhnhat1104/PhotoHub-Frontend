@@ -1,16 +1,23 @@
-import { useState } from 'react';
-import React from 'react';
-import { useImageMutation } from '~/hooks/useImageMutation';
-import { Box, Button, InputLabel, Stack, TextField, Typography, useTheme } from '@mui/material';
-import MiModal from '~/components/MiModal';
-import { useQueryClient } from '@tanstack/react-query';
-import { queryKeys } from '~/config/queryKeys';
-import { SET_TIMEOUT } from '~/config/constants';
-import { useRecoilValue } from 'recoil';
-import { userState } from '~/atoms';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { FileWithPath } from 'react-dropzone/.';
-import ImageDropZone from '~/components/ImageDropZone';
+import { useState } from "react";
+import React from "react";
+import { useImageMutation } from "~/hooks/useImageMutation";
+import {
+  Box,
+  Button,
+  InputLabel,
+  Stack,
+  TextField,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import MiModal from "~/components/MiModal";
+import { useQueryClient } from "@tanstack/react-query";
+import { queryKeys } from "~/config/queryKeys";
+import { SET_TIMEOUT } from "~/config/constants";
+import { useRecoilValue } from "recoil";
+import { userState } from "~/atoms";
+import { Controller, useForm, type SubmitHandler } from "react-hook-form";
+import ImageDropZone from "~/components/ImageDropZone";
 
 interface WriteProps {
   isOpen: boolean;
@@ -20,7 +27,7 @@ interface WriteProps {
 interface UploadFormData {
   name: string;
   description: string;
-  images: FileWithPath[];
+  images: File[];
 }
 
 function Write(props: WriteProps) {
@@ -41,10 +48,10 @@ function Write(props: WriteProps) {
 
   const onSubmit: SubmitHandler<UploadFormData> = async (data) => {
     const formData = new FormData();
-    formData.append('imageFile', data?.images?.[0]);
-    formData.append('name', data?.name);
-    formData.append('description', data?.description);
-    formData.append('creator_id', user?.id?.toString() || '');
+    formData.append("imageFile", data?.images?.[0]);
+    formData.append("name", data?.name);
+    formData.append("description", data?.description);
+    formData.append("creator_id", user?.id?.toString() || "");
 
     mUpload.mutate(formData, {
       onSuccess(data, variables, context) {
@@ -56,14 +63,20 @@ function Write(props: WriteProps) {
   };
 
   return (
-    <MiModal title={'Post Image'} isOpen={isOpen} size="sm" onClose={onClose} allowFullScreen>
+    <MiModal
+      title={"Post Image"}
+      isOpen={isOpen}
+      size="sm"
+      onClose={onClose}
+      allowFullScreen
+    >
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={2} width={'100%'} alignItems="flex-start" p={2}>
+        <Stack spacing={2} width={"100%"} alignItems="flex-start" p={2}>
           <TextField
             label="Name"
             helperText={errors.name?.message}
             error={!!errors.name}
-            {...register('name', { required: true, maxLength: 50 })}
+            {...register("name", { required: true, maxLength: 50 })}
             fullWidth
           />
 
@@ -71,7 +84,7 @@ function Write(props: WriteProps) {
             label="Description"
             helperText={errors.description?.message}
             error={!!errors.description}
-            {...register('description', { required: true, maxLength: 50 })}
+            {...register("description", { required: true, maxLength: 50 })}
             multiline
             minRows={2}
             fullWidth
@@ -80,7 +93,9 @@ function Write(props: WriteProps) {
           <Controller
             name="images"
             control={control}
-            render={({ field }) => <ImageDropZone value={field?.value} onChange={field?.onChange} />}
+            render={({ field }) => (
+              <ImageDropZone value={field?.value} onChange={field?.onChange} />
+            )}
           />
 
           <Stack direction="row" justifyContent="center" width={1}>
@@ -88,7 +103,7 @@ function Write(props: WriteProps) {
               type="submit"
               loading={mUpload.isPending}
               variant="contained"
-              sx={{ width: 'fit-content', margin: 'auto' }}
+              sx={{ width: "fit-content", margin: "auto" }}
             >
               Upload
             </Button>
