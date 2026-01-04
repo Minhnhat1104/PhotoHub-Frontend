@@ -12,6 +12,7 @@ import { useRecoilValue } from "recoil";
 import { userState } from "~/atoms";
 import NoData from "~/components/NoData";
 import { BASE_URL } from "~/config/config";
+import Item from "./Item";
 
 function Home() {
   const user = useRecoilValue(userState);
@@ -22,8 +23,7 @@ function Home() {
     size: paging?.size,
   });
 
-  const items = data?.data;
-  console.log("🚀 ~ Home ~ items:", items);
+  const items = data;
   const { mDelete } = useImageMutation();
 
   const handleDelete = useCallback(async (_id: string) => {
@@ -66,15 +66,7 @@ function Home() {
 
       <ImageList variant="masonry" cols={3} gap={8}>
         {items.map((_item: any) => (
-          <ImageListItem key={_item.id}>
-            <img
-              // srcSet={`${_item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-              srcSet={`${BASE_URL}/v1/image/file/${_item?.id}`}
-              src={`${BASE_URL}/v1/image/file/${_item?.id}`}
-              alt={_item.name}
-              loading="lazy"
-            />
-          </ImageListItem>
+          <Item key={_item.id} data={_item} />
         ))}
       </ImageList>
     </>

@@ -10,7 +10,7 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage, faUpload } from "@fortawesome/free-solid-svg-icons";
-import Logo from "~/assets/img/logo";
+import logo from "~/assets/img/favicon.ico";
 import React, { useState } from "react";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import useConfig from "~/hooks/useConfig";
@@ -72,14 +72,14 @@ function Header() {
               spacing={1}
               height={"100%"}
             >
-              <Logo />
+              <img style={{ width: 40, height: 40 }} src={logo} alt="Logo" />
               <Typography
                 color="primary"
                 fontWeight="600"
                 fontSize={"20px"}
                 fontStyle={"unset"}
               >
-                My Blog 2
+                Wallpaper
               </Typography>
             </Stack>
           </Link>

@@ -1,22 +1,28 @@
-import { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo } from "react";
 
-import { CssBaseline, GlobalStyles, StyledEngineProvider } from '@mui/material';
-import { createTheme, Theme, ThemeOptions, ThemeProvider, TypographyVariantsOptions } from '@mui/material/styles';
+import { CssBaseline, GlobalStyles, StyledEngineProvider } from "@mui/material";
+import {
+  createTheme,
+  Theme,
+  ThemeOptions,
+  ThemeProvider,
+  TypographyVariantsOptions,
+} from "@mui/material/styles";
 
-import useConfig from '~/hooks/useConfig';
-import { CustomShadowProps } from '~/themes/types/theme';
+import useConfig from "~/hooks/useConfig";
+import { CustomShadowProps } from "~/themes/types/theme";
 
-import componentsOverride from './overrides';
-import Palette from './palette';
-import CustomShadows from './shadows';
-import Typography from './typography';
-import React from 'react';
+import componentsOverride from "./overrides";
+import Palette from "./palette";
+import CustomShadows from "./shadows";
+import Typography from "./typography";
+import React from "react";
 
 type ThemeCustomizationProps = {
   children: ReactNode;
 };
 
-declare module '@mui/material/styles' {
+declare module "@mui/material/styles" {
   interface TypographyVariants {
     voraMenu: React.CSSProperties;
     voraTollbar: React.CSSProperties;
@@ -30,22 +36,31 @@ declare module '@mui/material/styles' {
 }
 
 // Update the Typography's variant prop options
-declare module '@mui/material/Typography' {
+declare module "@mui/material/Typography" {
   interface TypographyPropsVariantOverrides {
     voraMenu: true;
     voraTollbar: true;
   }
 }
 
-export default function ThemeCustomization({ children }: ThemeCustomizationProps) {
+export default function ThemeCustomization({
+  children,
+}: ThemeCustomizationProps) {
   const { themeDirection, mode, presetColor, fontFamily } = useConfig();
-  const theme: Theme = useMemo<Theme>(() => Palette(mode, presetColor), [mode, presetColor]);
-
-  const themeTypography: TypographyVariantsOptions = useMemo<TypographyVariantsOptions>(
-    () => Typography(mode, fontFamily, theme),
-    [mode, fontFamily]
+  const theme: Theme = useMemo<Theme>(
+    () => Palette(mode, presetColor),
+    [mode, presetColor]
   );
-  const themeCustomShadows: CustomShadowProps = useMemo<CustomShadowProps>(() => CustomShadows(theme), [theme]);
+
+  const themeTypography: TypographyVariantsOptions =
+    useMemo<TypographyVariantsOptions>(
+      () => Typography(mode, fontFamily, theme),
+      [mode, fontFamily]
+    );
+  const themeCustomShadows: CustomShadowProps = useMemo<CustomShadowProps>(
+    () => CustomShadows(theme),
+    [theme]
+  );
 
   const themeOptions: ThemeOptions = useMemo(
     () => ({
@@ -88,38 +103,39 @@ export default function ThemeCustomization({ children }: ThemeCustomizationProps
   themes.components = componentsOverride(themes);
   themes.components = {
     ...themes.components,
-    MuiTypography: {
-      ...themes.components?.MuiTypography,
-      defaultProps: {
-        variantMapping: {
-          voraMenu: 'h5',
-          voraTollbar: 'h5',
+    MuiImageListItemBar: {
+      styleOverrides: {
+        root: {
+          background: "transparent",
         },
       },
+    },
+    MuiTypography: {
+      ...themes.components?.MuiTypography,
     },
   };
 
   const setGlobalStyles = (theme: Theme) => (
     <GlobalStyles
       styles={{
-        ':root': {
-          '--color-primary': theme.palette.primary.main,
-          '--color-secondary': theme.palette.secondary.main,
-          '--color-success': theme.palette.success.main,
-          '--color-warning': theme.palette.warning.main,
-          '--color-error': theme.palette.error.main,
-          '--color-info': theme.palette.info.main,
-          '--color-white': theme.palette.common.white,
-          '--color-border': theme.palette.divider,
-          '--color-gray-100': theme.palette.grey[100],
-          '--color-gray-200': theme.palette.grey[200],
-          '--color-gray-300': theme.palette.grey[300],
-          '--color-gray-400': theme.palette.grey[400],
-          '--color-gray-500': theme.palette.grey[500],
-          '--color-red': theme.palette.error.main,
-          '--color-purple': theme.palette.purple.main,
-          '--color-orange': theme.palette.orange.main,
-          '--separator-border': `${theme.palette.divider} !important`,
+        ":root": {
+          "--color-primary": theme.palette.primary.main,
+          "--color-secondary": theme.palette.secondary.main,
+          "--color-success": theme.palette.success.main,
+          "--color-warning": theme.palette.warning.main,
+          "--color-error": theme.palette.error.main,
+          "--color-info": theme.palette.info.main,
+          "--color-white": theme.palette.common.white,
+          "--color-border": theme.palette.divider,
+          "--color-gray-100": theme.palette.grey[100],
+          "--color-gray-200": theme.palette.grey[200],
+          "--color-gray-300": theme.palette.grey[300],
+          "--color-gray-400": theme.palette.grey[400],
+          "--color-gray-500": theme.palette.grey[500],
+          "--color-red": theme.palette.error.main,
+          "--color-purple": theme.palette.purple.main,
+          "--color-orange": theme.palette.orange.main,
+          "--separator-border": `${theme.palette.divider} !important`,
         },
       }}
     />
