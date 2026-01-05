@@ -1,17 +1,13 @@
-import { Box, Button, Container, IconButton, Stack, Switch, Typography, useTheme } from '@mui/material';
+import { Box, Button, Container, IconButton, Stack, Typography, useTheme } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faImage, faUpload } from '@fortawesome/free-solid-svg-icons';
 import logo from '~/assets/img/favicon.ico';
 import React, { useState } from 'react';
-import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import useConfig from '~/hooks/useConfig';
 import Write from '~/pages/Write';
-import { defaultLayoutWidth } from '~/config/config';
 import { useAuthMutation } from '~/hooks/useAuthMutation';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { userState } from '~/atoms';
-import { Image, Upload } from '@mui/icons-material';
+import { ImageOutlined, UploadOutlined } from '@mui/icons-material';
 import { COOKIE_KEY, cookieService } from '~/tools/storages';
 import ThemeToggle from '~/components/ThemeToggle';
 
@@ -64,10 +60,10 @@ function Header() {
           {user ? (
             <Stack direction="row" alignItems="center" spacing={1}>
               <IconButton size="medium" onClick={() => setOpenWrite(true)}>
-                <Upload />
+                <UploadOutlined />
               </IconButton>
               <IconButton size="medium" href="/">
-                <Image />
+                <ImageOutlined />
               </IconButton>
               <ThemeToggle />
               <Typography pr={1}>{user.username}</Typography>
