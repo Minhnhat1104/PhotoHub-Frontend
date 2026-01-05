@@ -60,7 +60,7 @@ function Home() {
         })}
       </Grid> */}
 
-      <ImageList variant="masonry" cols={3} gap={8}>
+      <ImageList variant="masonry" cols={3} gap={20}>
         {items.map((_item: any) => (
           <Item key={_item.id} data={_item} />
         ))}
