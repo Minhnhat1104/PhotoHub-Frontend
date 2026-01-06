@@ -36,7 +36,8 @@ const AxiosContext = ({}: AxiosContextProps) => {
           navigate('/login');
           setUser(null);
         }
-        return Promise.reject(err?.response?.data);
+        if (err?.response?.data) err.data = err?.response?.data;
+        return Promise.reject(err);
       }
     );
 

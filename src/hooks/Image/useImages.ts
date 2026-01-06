@@ -7,7 +7,7 @@ const useImages = (params: { page: number; size: number }) => {
     queryFn: async () => {
       const res = await axios.get(`/v1/image`, { params });
 
-      return res?.data;
+      return res;
     },
 
     queryKey: [queryKeys.imageList, params?.page, params?.size],
@@ -21,7 +21,7 @@ export const useImage = (params: { id: string }) => {
   const res = useQuery({
     queryFn: async () => {
       const res = await axios.get(`/v1/image/${params.id}`, {});
-      return res.data;
+      return res;
     },
 
     queryKey: [queryKeys.imageView, params.id],

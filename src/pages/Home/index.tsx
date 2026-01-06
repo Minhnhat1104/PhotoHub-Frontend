@@ -19,7 +19,7 @@ function Home() {
     size: paging?.size,
   });
 
-  const items = data?.data;
+  const items = data?.data?.rows;
   const { mDelete } = useImageMutation();
 
   const handleDelete = useCallback(async (_id: string) => {

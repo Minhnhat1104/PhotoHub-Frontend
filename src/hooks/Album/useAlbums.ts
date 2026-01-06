@@ -7,7 +7,7 @@ const useAlbums = (params: { page: number; size: number }) => {
     queryFn: async () => {
       const res = await axios.get(`/v1/album/list`, { params });
 
-      return res?.data;
+      return res;
     },
 
     queryKey: [queryKeys.albumList, params?.page, params?.size],
@@ -21,7 +21,7 @@ export const useAlbum = (params: { id: string }) => {
   const res = useQuery({
     queryFn: async () => {
       const res = await axios.get(`/v1/album/${params.id}`, {});
-      return res.data;
+      return res;
     },
 
     queryKey: [queryKeys.albumView, params.id],

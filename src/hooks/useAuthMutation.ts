@@ -31,7 +31,7 @@ export const useAuthMutation = () => {
       enqueueSuccess('Login successfully!');
     },
     onError(res: any, variables, context) {
-      enqueueError(res?.msg || 'Login failed!');
+      enqueueError(res?.data?.msg || 'Login failed!');
     },
   });
 
