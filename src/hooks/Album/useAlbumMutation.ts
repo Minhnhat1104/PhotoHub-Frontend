@@ -25,7 +25,7 @@ export const useAlbumMutation = () => {
   const mDelete = useMutation({
     mutationKey: [queryKeys.albumDelete],
     mutationFn: async (params: any) => {
-      const res = await axios.delete('/v1/album/delete', params);
+      const res = await axios.post('/v1/album/delete', params);
 
       return res;
     },
@@ -37,20 +37,5 @@ export const useAlbumMutation = () => {
     },
   });
 
-  const mSetFavorite = useMutation({
-    mutationKey: [queryKeys.albumFavorite],
-    mutationFn: async (params: any) => {
-      const res = await axios.delete('/v1/album/favorite', params);
-
-      return res;
-    },
-    onSuccess(data: any, variables, context) {
-      enqueueSuccess('Like album successfully!');
-    },
-    onError(data, variables, context) {
-      enqueueError('Like album failed!');
-    },
-  });
-
-  return { mCreate, mDelete, mSetFavorite };
+  return { mCreate, mDelete };
 };

@@ -40,7 +40,7 @@ export const useImageMutation = () => {
   const mSetFavorite = useMutation({
     mutationKey: [queryKeys.imageFavorite],
     mutationFn: async (params: any) => {
-      const res = await axios.delete('/v1/image/favorite', params);
+      const res = await axios.post('/v1/image/favorite', params);
 
       return res;
     },
