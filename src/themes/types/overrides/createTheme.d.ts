@@ -14,6 +14,11 @@ declare module '@mui/material/styles' {
     volcano: SimplePaletteColorOptions;
     header: string;
     link: string;
+    border: {
+      light: string;
+      main: string;
+      dark: string;
+    };
   }
   interface Palette extends CustomPalette {}
   interface PaletteOptions extends CustomPalette {}

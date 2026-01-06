@@ -69,9 +69,9 @@ export default function ThemeCustomization({ children }: ThemeCustomizationProps
       palette: theme.palette,
       customShadows: themeCustomShadows,
       border: {
-        light: `1px solid ${theme.palette.divider}`,
-        main: `1px solid ${theme.palette.divider}`,
-        dark: `1px solid ${theme.palette.divider}`,
+        light: `1px solid ${theme.palette.border.light}`,
+        main: `1px solid ${theme.palette.border.main}`,
+        dark: `1px solid ${theme.palette.border.dark}`,
       },
       typography: {
         ...themeTypography,
@@ -98,6 +98,11 @@ export default function ThemeCustomization({ children }: ThemeCustomizationProps
         root: {
           background: 'transparent',
         },
+      },
+    },
+    MuiContainer: {
+      defaultProps: {
+        maxWidth: 'xl',
       },
     },
     MuiTypography: {

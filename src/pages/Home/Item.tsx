@@ -3,6 +3,7 @@ import { IconButton, ImageListItem, ImageListItemBar, Slide, Stack, Typography }
 import React, { useRef, useState } from 'react';
 import { BASE_URL } from '~/config/config';
 import BlurIconButton from './BlurIconButton';
+import { downloadURI } from '~/tools/image';
 
 interface ItemProps {
   data: any;
@@ -14,33 +15,6 @@ const Item = ({ data }: ItemProps) => {
   const [isHover, setIsHover] = useState(false);
 
   const imageSrc = `${BASE_URL}/v1/image/file/${data?.id}`;
-
-  const handleDownload = async () => {
-    try {
-      const response = await fetch(imageSrc);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      const blob = await response.blob();
-
-      // Create blob link to download
-      const url = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', data?.name || 'downloaded-file'); // Set the download attribute with a filename
-
-      // Append to html link element page, click it, and remove it
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      // Clean up the object URL
-      window.URL.revokeObjectURL(url);
-    } catch (error) {
-      console.error('Download failed:', error);
-      alert('File download failed. Check console for details.');
-    }
-  };
 
   return (
     <ImageListItem
@@ -77,7 +51,7 @@ const Item = ({ data }: ItemProps) => {
           <BlurIconButton
             sx={{ color: 'white', ml: 'auto' }}
             icon={DownloadOutlined}
-            onClick={() => handleDownload()}
+            onClick={() => downloadURI(imageSrc, data?.name)}
           />
         </Stack>
       </Slide>
