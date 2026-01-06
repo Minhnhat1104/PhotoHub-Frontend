@@ -14,12 +14,16 @@ import Item from './Item';
 function Home() {
   const [allImages, setAllImages] = useState([]);
   const [paging, setPaging] = useState<Paging>({ page: 1, size: 10 });
-  const { data, isInitialLoading, error } = useImages({
+  const {
+    data: res,
+    isInitialLoading,
+    error,
+  } = useImages({
     page: paging?.page,
     size: paging?.size,
   });
 
-  const items = data?.data?.rows;
+  const items = res?.data?.rows;
   const { mDelete } = useImageMutation();
 
   const handleDelete = useCallback(async (_id: string) => {
