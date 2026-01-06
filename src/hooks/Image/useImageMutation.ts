@@ -37,5 +37,20 @@ export const useImageMutation = () => {
     },
   });
 
-  return { mUpload, mDelete };
+  const mSetFavorite = useMutation({
+    mutationKey: [queryKeys.imageFavorite],
+    mutationFn: async (params: any) => {
+      const res = await axios.delete('/v1/image/favorite', params);
+
+      return res;
+    },
+    onSuccess(data: any, variables, context) {
+      enqueueSuccess('Like image successfully!');
+    },
+    onError(data, variables, context) {
+      enqueueError('Like image failed!');
+    },
+  });
+
+  return { mUpload, mDelete, mSetFavorite };
 };

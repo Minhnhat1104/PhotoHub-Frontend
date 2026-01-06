@@ -5,6 +5,14 @@ export const queryKeys = {
   // Image
   imageUpload: 'imageUpload',
   imageDelete: 'imageDelete',
+  imageFavorite: 'imageFavorite',
   imageList: 'imageList',
   imageView: 'imageView',
+
+  // Album
+  albumCreate: 'albumCreate',
+  albumDelete: 'albumDelete',
+  albumFavorite: 'albumFavorite',
+  albumList: 'albumList',
+  albumView: 'albumView',
 };

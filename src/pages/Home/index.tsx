@@ -2,11 +2,11 @@ import React, { lazy } from 'react';
 
 import { useState, useCallback } from 'react';
 
-import useImages from '~/hooks/useImages';
+import useImages from '~/hooks/Image/useImages';
 
 import { ImageList, ImageListItem } from '@mui/material';
 import LoadingCircular from '~/components/LoadingCircular';
-import { useImageMutation } from '~/hooks/useImageMutation';
+import { useImageMutation } from '~/hooks/Image/useImageMutation';
 import { Paging } from '~/types';
 import NoData from '~/components/NoData';
 import Item from './Item';

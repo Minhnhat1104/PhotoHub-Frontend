@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import React from 'react';
 import LoadingCircular from '~/components/LoadingCircular';
-import { useImage } from '~/hooks/useImages';
+import { useImage } from '~/hooks/Image/useImages';
 import { useRecoilValue } from 'recoil';
 import { userState } from '~/atoms';
 
