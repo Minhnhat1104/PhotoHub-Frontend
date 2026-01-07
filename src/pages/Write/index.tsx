@@ -14,7 +14,7 @@ import { useAlbumMutation } from '~/hooks/Album/useAlbumMutation';
 
 interface WriteProps {
   isOpen: boolean;
-  onClose: (value: any) => void;
+  onClose: () => void;
 }
 
 interface UploadFormData {
@@ -41,7 +41,9 @@ function Write(props: WriteProps) {
 
   const onSubmit: SubmitHandler<UploadFormData> = async (data) => {
     const formData = new FormData();
-    formData.append('photos', data?.photos?.[0]);
+    data?.photos.forEach((file) => {
+      formData.append('photos', file);
+    });
     formData.append('name', data?.name);
     formData.append('description', data?.description);
     formData.append('creator_id', user?.id?.toString() || '');
@@ -49,8 +51,11 @@ function Write(props: WriteProps) {
     mCreate.mutate(formData, {
       onSuccess(data, variables, context) {
         setTimeout(() => {
-          queryClient.invalidateQueries([queryKeys.imageList]);
+          queryClient.invalidateQueries({
+            queryKey: [queryKeys.imageList],
+          });
         }, SET_TIMEOUT);
+        onClose();
       },
     });
   };

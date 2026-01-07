@@ -37,7 +37,17 @@ const Item = ({ data }: ItemProps) => {
       />
 
       <Slide in={isHover} direction="left" container={containerRef.current} timeout={200}>
-        <BlurIconButton sx={{ color: 'white', position: 'absolute', top: 8, right: 8 }} icon={FavoriteBorderOutlined} />
+        <BlurIconButton
+          sx={{ color: 'white', position: 'absolute', top: 8, right: 8 }}
+          {...(data?.favotire
+            ? {
+                icon: FavoriteBorderOutlined,
+                iconColor: 'error',
+              }
+            : {
+                icon: FavoriteBorderOutlined,
+              })}
+        />
       </Slide>
 
       <Slide in={isHover} direction="up" container={containerRef.current} timeout={200}>

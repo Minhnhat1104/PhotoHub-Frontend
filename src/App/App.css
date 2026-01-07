@@ -43,8 +43,8 @@ html *::-webkit-scrollbar-track {
   overflow-y: auto !important;
 }
 
-[href] {
+a {
   text-decoration: none;
   font-style: normal;
-  color: inherit;
+  color: unset;
 }

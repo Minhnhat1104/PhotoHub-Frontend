@@ -1,14 +1,16 @@
 import { IconButton, SxProps } from '@mui/material';
 import { SvgIconComponent } from '@mui/icons-material';
 import { forwardRef, Ref } from 'react';
+import { PaletteColor } from '@mui/material/styles';
 
 interface BlurIconButtonProps {
   icon: SvgIconComponent;
+  iconColor?: 'error';
   sx?: SxProps;
   onClick?: React.MouseEventHandler<HTMLButtonElement> | undefined;
 }
 
-function BlurIconButton({ icon: Icon, onClick, sx }: BlurIconButtonProps, ref: Ref<HTMLButtonElement>) {
+function BlurIconButton({ icon: Icon, iconColor, onClick, sx }: BlurIconButtonProps, ref: Ref<HTMLButtonElement>) {
   return (
     <IconButton
       onClick={onClick}
@@ -26,7 +28,7 @@ function BlurIconButton({ icon: Icon, onClick, sx }: BlurIconButtonProps, ref: R
         ...sx,
       }}
     >
-      <Icon />
+      <Icon color={iconColor} />
     </IconButton>
   );
 }
