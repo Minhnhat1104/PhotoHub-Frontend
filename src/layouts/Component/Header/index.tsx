@@ -10,6 +10,7 @@ import { userState } from '~/atoms';
 import { ImageOutlined, UploadOutlined } from '@mui/icons-material';
 import { COOKIE_KEY, cookieService } from '~/tools/storages';
 import ThemeToggle from '~/components/ThemeToggle';
+import Profile from './Profile';
 
 function Header() {
   const [user, setUser] = useRecoilState(userState);
@@ -66,10 +67,11 @@ function Header() {
                 <ImageOutlined />
               </IconButton>
               <ThemeToggle />
-              <Typography pr={1}>{user.username}</Typography>
+              {/* <Typography pr={1}>{user.username}</Typography>
               <Button size="medium" variant="outlined" onClick={handleLogout}>
                 Log Out
-              </Button>
+              </Button> */}
+              <Profile />
             </Stack>
           ) : (
             <Stack direction="row" alignItems="center" spacing={1}>
