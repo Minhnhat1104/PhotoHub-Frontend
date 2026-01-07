@@ -1,7 +1,6 @@
-import Header from '../Component/Header';
+import Header from '../Header';
 import React from 'react';
 import { Box, Stack } from '@mui/material';
-import { defaultLayoutHeaderHeight, defaultLayoutWidth } from '~/config/config';
 import background from '~/assets/img/img.jpg';
 import { Outlet } from 'react-router-dom';
 
