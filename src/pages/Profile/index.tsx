@@ -1,12 +1,9 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, Button, Grid, Stack, TextField, Typography, useTheme } from '@mui/material';
-import { useAuthMutation } from '~/hooks/useAuthMutation';
 import { type SubmitHandler, useForm } from 'react-hook-form';
-import PasswordInput from '~/components/PasswordInput';
-import userImagePlaceholder from '~/assets/img/UserPlaceholder.png';
 import { validationRegex } from '~/tools/regexs';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { userState } from '~/atoms';
 import { useUserMutation } from '~/hooks/useUserMutation';
 import AvatarWrite from './AvatarWrite';
@@ -22,7 +19,7 @@ function Profile() {
   const theme = useTheme();
   const navigate = useNavigate();
   const { mProfileUpdate } = useUserMutation();
-  const user = useRecoilValue(userState);
+  const [user, setUser] = useRecoilState(userState);
 
   const {
     register,
@@ -48,7 +45,15 @@ function Profile() {
       },
       {
         onSuccess: () => {
-          navigate('/login');
+          setUser((prev) =>
+            prev
+              ? {
+                  ...prev,
+                  first_name: data?.firstName || '',
+                  last_name: data?.lastName || '',
+                }
+              : null
+          );
         },
       }
     );
@@ -94,6 +99,7 @@ function Profile() {
         </Grid>
         <TextField
           fullWidth
+          disabled
           size="medium"
           label="Email"
           helperText={errors.email?.message}

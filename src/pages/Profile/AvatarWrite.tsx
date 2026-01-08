@@ -5,6 +5,7 @@ import { useUserMutation } from '~/hooks/useUserMutation';
 import userImagePlaceholder from '~/assets/img/UserPlaceholder.png';
 import { useRecoilState } from 'recoil';
 import { userState } from '~/atoms';
+import { getUserAvatarSrc } from '~/tools/image';
 
 function AvatarWrite() {
   const [user, setUser] = useRecoilState(userState);
@@ -24,7 +25,7 @@ function AvatarWrite() {
     <Stack direction="row" alignItems="center" spacing={3}>
       <Avatar
         alt="avatar"
-        src={userImagePlaceholder}
+        src={getUserAvatarSrc(user?.id || '')}
         sx={{
           width: 80,
           height: 80,

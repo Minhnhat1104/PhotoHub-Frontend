@@ -8,7 +8,7 @@ import { alpha, useTheme } from '@mui/material/styles';
 import ProfileContent from './ProfileContent';
 import { useRecoilValue } from 'recoil';
 import { userState } from '~/atoms';
-import userImagePlaceholder from '~/assets/img/UserPlaceholder.png';
+import { getUserAvatarSrc } from '~/tools/image';
 
 const Profile = () => {
   const theme = useTheme();
@@ -24,7 +24,6 @@ const Profile = () => {
     setOpen(false);
   };
 
-  const border = `1px solid ${theme.palette.border.light}`;
   return (
     <>
       <IconButton
@@ -34,7 +33,7 @@ const Profile = () => {
         aria-haspopup="true"
         onClick={handleToggle}
       >
-        <Avatar alt="profile user" src={userImagePlaceholder} sx={{ width: 32, height: 32 }} />
+        <Avatar alt="profile user" src={getUserAvatarSrc(user?.id || '')} sx={{ width: 32, height: 32 }} />
       </IconButton>
 
       <Popper open={open} anchorEl={anchorRef?.current} transition placement="bottom-end" sx={{ zIndex: 1 }}>
