@@ -102,7 +102,7 @@ export default function ThemeCustomization({ children }: ThemeCustomizationProps
     },
     MuiContainer: {
       defaultProps: {
-        maxWidth: 'xl',
+        maxWidth: 'lg',
       },
     },
     MuiTypography: {
