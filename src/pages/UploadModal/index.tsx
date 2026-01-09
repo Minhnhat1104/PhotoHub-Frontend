@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import React from 'react';
-import { useImageMutation } from '~/hooks/Image/useImageMutation';
 import { Box, Button, InputLabel, Stack, TextField, Typography, useTheme } from '@mui/material';
 import MiModal from '~/components/MiModal';
 import { useQueryClient } from '@tanstack/react-query';
@@ -12,7 +11,7 @@ import { Controller, useForm, type SubmitHandler } from 'react-hook-form';
 import ImageDropZone from '~/components/ImageDropZone';
 import { useAlbumMutation } from '~/hooks/Album/useAlbumMutation';
 
-interface WriteProps {
+interface UploadModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
@@ -23,7 +22,7 @@ interface UploadFormData {
   photos: File[];
 }
 
-function Write(props: WriteProps) {
+function UploadModal(props: UploadModalProps) {
   const { isOpen, onClose } = props;
   const theme = useTheme();
   const queryClient = useQueryClient();
@@ -104,4 +103,4 @@ function Write(props: WriteProps) {
   );
 }
 
-export default Write;
+export default UploadModal;

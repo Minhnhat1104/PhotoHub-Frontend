@@ -3,7 +3,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import logo from '~/assets/img/favicon.ico';
 import React, { useState } from 'react';
 import useConfig from '~/hooks/useConfig';
-import Write from '~/pages/Write';
 import { useAuthMutation } from '~/hooks/useAuthMutation';
 import { useRecoilState } from 'recoil';
 import { userState } from '~/atoms';
@@ -12,6 +11,7 @@ import { COOKIE_KEY, cookieService } from '~/tools/storages';
 import ThemeToggle from '~/components/ThemeToggle';
 import Profile from './Profile';
 import NavList from './NavList';
+import UploadModal from '~/pages/UploadModal';
 
 function Header() {
   const [user, setUser] = useRecoilState(userState);
@@ -88,7 +88,7 @@ function Header() {
         </Container>
       </Box>
 
-      {openWrite && <Write isOpen={openWrite} onClose={() => setOpenWrite(false)} />}
+      {openWrite && <UploadModal isOpen={openWrite} onClose={() => setOpenWrite(false)} />}
     </>
   );
 }
