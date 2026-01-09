@@ -12,3 +12,7 @@ export function downloadURI(uri: string, name: string) {
 export const getUserAvatarSrc = (id: number | string) => {
   return `${BASE_URL}/v1/user/avatar?id=${id}`;
 };
+
+export const getImageSrc = (imageId: number | string) => {
+  return `${BASE_URL}/v1/image/file/${imageId}`;
+};

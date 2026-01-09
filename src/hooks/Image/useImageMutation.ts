@@ -34,7 +34,7 @@ export const useImageMutation = () => {
     },
   });
 
-  const mUploadEditImage = useMutation({
+  const mEditImage = useMutation({
     mutationKey: [queryKeys.imageEdit],
     mutationFn: async (params: any) => {
       const res = await axios.post('/v1/image/edit', params);
@@ -52,5 +52,5 @@ export const useImageMutation = () => {
     },
   });
 
-  return { mUpload, mDelete, mSetFavorite, mUploadEditImage, mResetEditImage };
+  return { mUpload, mDelete, mSetFavorite, mEditImage, mResetEditImage };
 };

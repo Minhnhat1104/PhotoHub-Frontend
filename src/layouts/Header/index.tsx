@@ -67,14 +67,7 @@ function Header() {
                 <IconButton size="medium" onClick={() => setOpenWrite(true)}>
                   <UploadOutlined />
                 </IconButton>
-                <IconButton size="medium" href="/">
-                  <ImageOutlined />
-                </IconButton>
                 <ThemeToggle />
-                {/* <Typography pr={1}>{user.username}</Typography>
-                <Button size="medium" variant="outlined" onClick={handleLogout}>
-                  Log Out
-                </Button> */}
                 <Profile />
               </Stack>
             </>

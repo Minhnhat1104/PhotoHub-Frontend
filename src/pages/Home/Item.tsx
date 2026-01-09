@@ -1,12 +1,15 @@
-import { DownloadOutlined, Favorite, FavoriteBorderOutlined } from '@mui/icons-material';
-import { IconButton, ImageListItem, ImageListItemBar, Slide, Stack, Typography } from '@mui/material';
+import { DownloadOutlined, Edit, Favorite, FavoriteBorderOutlined } from '@mui/icons-material';
+import { Avatar, IconButton, ImageListItem, ImageListItemBar, Slide, Stack, Typography } from '@mui/material';
 import React, { useRef, useState } from 'react';
 import { BASE_URL } from '~/config/config';
 import BlurIconButton from './BlurIconButton';
-import { downloadURI } from '~/tools/image';
+import { downloadURI, getImageSrc, getUserAvatarSrc } from '~/tools/image';
 import { useImageMutation } from '~/hooks/Image/useImageMutation';
 import { useQueryClient } from '@tanstack/react-query';
 import { queryKeys } from '~/config/queryKeys';
+import { useRecoilValue } from 'recoil';
+import { userState } from '~/atoms';
+import ImageEditModal from '../ImageEditModal';
 
 interface ItemProps {
   data: any;
@@ -15,8 +18,11 @@ interface ItemProps {
 const Item = ({ data }: ItemProps) => {
   const containerRef = useRef<HTMLLIElement>(null);
   const queryClient = useQueryClient();
+  const user = useRecoilValue(userState);
+  const isAuthor = user?.id === data?.creator?.id;
 
   const [isHover, setIsHover] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
 
   const { mSetFavorite } = useImageMutation();
 
@@ -39,56 +45,70 @@ const Item = ({ data }: ItemProps) => {
   };
 
   return (
-    <ImageListItem
-      ref={containerRef}
-      key={data.id}
-      sx={{
-        borderRadius: 2,
-        overflow: 'hidden',
-        position: 'relative',
-      }}
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
-    >
-      <img
-        // srcSet={`${data.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-        srcSet={`${BASE_URL}/v1/image/file/${data?.id}`}
-        src={`${BASE_URL}/v1/image/file/${data?.id}`}
-        alt={data.name}
-        loading="lazy"
-      />
-
-      <Slide in={isHover} direction="left" container={containerRef.current} timeout={200}>
-        <BlurIconButton
-          onClick={handleFavorite}
-          sx={{ color: 'white', position: 'absolute', top: 8, right: 8 }}
-          {...(data?.favorite
-            ? {
-                icon: Favorite,
-                iconColor: 'error',
-              }
-            : {
-                icon: FavoriteBorderOutlined,
-              })}
+    <>
+      <ImageListItem
+        ref={containerRef}
+        key={data.id}
+        sx={{
+          borderRadius: 2,
+          overflow: 'hidden',
+          position: 'relative',
+        }}
+        onMouseEnter={() => setIsHover(true)}
+        onMouseLeave={() => setIsHover(false)}
+      >
+        <img
+          // srcSet={`${data.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
+          srcSet={getImageSrc(data?.id)}
+          src={getImageSrc(data?.id)}
+          alt={data.name}
+          loading="lazy"
         />
-      </Slide>
 
-      <Slide in={isHover} direction="up" container={containerRef.current} timeout={200}>
-        <Stack direction="row" alignItems="center" width={1} sx={{ position: 'absolute', bottom: 8, px: '8px' }}>
-          <Stack direction="row" alignItems="center">
-            <Typography color="#fff" sx={{ fontWeight: 500, fontSize: 18 }}>
-              {data?.name}
-            </Typography>
+        <Slide in={isHover} direction="down" container={containerRef.current} timeout={200}>
+          <Stack direction="row" alignItems="center" spacing={1} sx={{ position: 'absolute', top: 8, right: 8 }}>
+            {isAuthor && <BlurIconButton sx={{ color: 'white' }} icon={Edit} onClick={() => setOpenEdit(true)} />}
+
+            <BlurIconButton
+              onClick={handleFavorite}
+              sx={{ color: 'white' }}
+              {...(data?.favorite
+                ? {
+                    icon: Favorite,
+                    iconColor: 'error',
+                  }
+                : {
+                    icon: FavoriteBorderOutlined,
+                  })}
+            />
           </Stack>
+        </Slide>
 
-          <BlurIconButton
-            sx={{ color: 'white', ml: 'auto' }}
-            icon={DownloadOutlined}
-            onClick={() => downloadURI(imageSrc, data?.name)}
-          />
-        </Stack>
-      </Slide>
-    </ImageListItem>
+        <Slide in={isHover} direction="up" container={containerRef.current} timeout={200}>
+          <Stack direction="row" alignItems="center" width={1} sx={{ position: 'absolute', bottom: 8, px: '8px' }}>
+            <Stack direction="row" alignItems="center" spacing={1.5}>
+              <Avatar
+                alt="profile user"
+                src={getUserAvatarSrc(data?.creator?.id || '')}
+                sx={{ width: 32, height: 32 }}
+              />
+
+              <Typography color="#fff" sx={{ fontWeight: 500, fontSize: 18 }}>
+                {data?.name}
+              </Typography>
+            </Stack>
+
+            <BlurIconButton
+              sx={{ color: 'white', ml: 'auto' }}
+              icon={DownloadOutlined}
+              onClick={() => downloadURI(imageSrc, data?.name)}
+            />
+          </Stack>
+        </Slide>
+      </ImageListItem>
+
+      {openEdit && <ImageEditModal isOpen={openEdit} onClose={() => setOpenEdit(false)} imageId={data?.id} />}
+    </>
   );
 };
 
