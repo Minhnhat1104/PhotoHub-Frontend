@@ -39,6 +39,7 @@ function ImageEditModal(props: ImageEditModalProps) {
     }
 
     formData.append('photo', file);
+    formData.append('imageId', `${imageId}`);
 
     mEditImage.mutate(formData, {
       onSuccess(data, variables, context) {

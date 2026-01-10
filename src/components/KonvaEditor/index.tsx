@@ -43,8 +43,6 @@ const KonvaEditor: React.ForwardRefRenderFunction<KonvaEditorHandle, KonvaEditor
         lastModified: Date.now(),
       });
 
-      enqueueError('This function is on develop');
-
       return file;
     },
   }));
