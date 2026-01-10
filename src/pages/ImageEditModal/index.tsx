@@ -8,6 +8,7 @@ import { useImageMutation } from '~/hooks/Image/useImageMutation';
 import KonvaEditor, { KonvaEditorHandle } from '~/components/KonvaEditor';
 import { getImageSrc } from '~/tools/image';
 import { useSnackbar } from '~/hooks/useSnackbar';
+import dayjs, { Dayjs } from 'dayjs';
 
 interface ImageEditModalProps {
   isOpen: boolean;
@@ -28,6 +29,7 @@ function ImageEditModal(props: ImageEditModalProps) {
   const editorRef = useRef<KonvaEditorHandle>(null);
   const { enqueueError } = useSnackbar();
 
+  const [time, setTime] = useState<Dayjs | null>(null);
   const { mEditImage } = useImageMutation();
 
   const onSubmit = async () => {
@@ -54,16 +56,21 @@ function ImageEditModal(props: ImageEditModalProps) {
   return (
     <MiModal title={'Edit image'} isOpen={isOpen} size="xs" onClose={onClose} allowFullScreen>
       <Stack spacing={2} width={'100%'} alignItems="flex-start" p={2}>
-        <KonvaEditor ref={editorRef} imageUrl={getImageSrc(imageId)} />
+        <KonvaEditor ref={editorRef} imageUrl={getImageSrc(imageId, { v: time?.unix(), origin: !!time })} />
 
-        <Stack direction="row" justifyContent="center" width={1}>
+        <Stack direction="row" justifyContent="center" width={1} spacing={1.5}>
           <Button
             type="submit"
             loading={mEditImage.isPending}
             variant="contained"
-            sx={{ width: 'fit-content', margin: 'auto' }}
-            onClick={onSubmit}
+            onClick={() => {
+              setTime(dayjs());
+              editorRef?.current?.resetFitler();
+            }}
           >
+            Reset
+          </Button>
+          <Button type="submit" loading={mEditImage.isPending} variant="contained" onClick={onSubmit}>
             Save
           </Button>
         </Stack>

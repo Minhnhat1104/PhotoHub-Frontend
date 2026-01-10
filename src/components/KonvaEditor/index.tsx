@@ -14,7 +14,15 @@ const CONTAINER_MAX_SIZE = 400;
 
 export interface KonvaEditorHandle {
   getEditedImage: () => Promise<File | null>;
+  resetFitler: () => void;
 }
+
+const defaultFilter: Record<FilterType, number> = {
+  scale: 1,
+  rotation: 0,
+  brightness: 1,
+  contrast: 0,
+};
 
 const KonvaEditor: React.ForwardRefRenderFunction<KonvaEditorHandle, KonvaEditorProps> = ({ imageUrl }, ref) => {
   const theme = useTheme();
@@ -22,12 +30,7 @@ const KonvaEditor: React.ForwardRefRenderFunction<KonvaEditorHandle, KonvaEditor
   const stageRef = useRef<Konva.Stage | null>(null);
   const imageRef = useRef<Konva.Image | null>(null);
   const [image] = useImage(imageUrl, 'anonymous');
-  const [filter, setFilter] = useState<Record<FilterType, number>>({
-    scale: 1,
-    rotation: 0,
-    brightness: 1,
-    contrast: 0,
-  });
+  const [filter, setFilter] = useState(defaultFilter);
   const [filterType, setFilterType] = useState<FilterType>(FilterType.scale);
 
   useImperativeHandle(ref, () => ({
@@ -45,6 +48,7 @@ const KonvaEditor: React.ForwardRefRenderFunction<KonvaEditorHandle, KonvaEditor
 
       return file;
     },
+    resetFitler: () => setFilter(defaultFilter),
   }));
 
   // when image is loaded we need to cache the shape

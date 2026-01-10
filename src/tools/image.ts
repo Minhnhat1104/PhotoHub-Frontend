@@ -13,6 +13,20 @@ export const getUserAvatarSrc = (id: number | string) => {
   return `${BASE_URL}/v1/user/avatar?id=${id}`;
 };
 
-export const getImageSrc = (imageId: number | string) => {
-  return `${BASE_URL}/v1/image/file/${imageId}`;
+export const getImageSrc = (imageId: number | string, opts: { v?: string | number; origin?: boolean }) => {
+  let url = `${BASE_URL}/v1/image/file/${imageId}`;
+
+  const querys: string[] = [];
+  if (opts?.v) {
+    querys.push(`v=${opts?.v}`);
+  }
+  if (opts?.origin) {
+    querys.push(`origin=true`);
+  }
+
+  if (querys?.length) {
+    url += `?${querys?.join('&')}`;
+  }
+
+  return url;
 };

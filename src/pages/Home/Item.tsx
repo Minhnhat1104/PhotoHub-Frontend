@@ -10,7 +10,7 @@ import { queryKeys } from '~/config/queryKeys';
 import { useRecoilValue } from 'recoil';
 import { userState } from '~/atoms';
 import ImageEditModal from '../ImageEditModal';
-
+import dayjs from 'dayjs';
 interface ItemProps {
   data: any;
 }
@@ -44,6 +44,8 @@ const Item = ({ data }: ItemProps) => {
     );
   };
 
+  const imageUrl = getImageSrc(data?.id, { v: data?.edit_at ? dayjs(data?.edit_at)?.unix() : undefined });
+
   return (
     <>
       <ImageListItem
@@ -59,8 +61,8 @@ const Item = ({ data }: ItemProps) => {
       >
         <img
           // srcSet={`${data.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-          srcSet={getImageSrc(data?.id)}
-          src={getImageSrc(data?.id)}
+          srcSet={imageUrl}
+          src={imageUrl}
           alt={data.name}
           loading="lazy"
         />
