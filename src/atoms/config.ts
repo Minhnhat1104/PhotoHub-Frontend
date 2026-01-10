@@ -1,6 +1,18 @@
 import { atom } from 'recoil';
+import { PresetColor, ThemeDirection, ThemeMode } from '~/themes/types/config';
 
-import { DefaultConfigProps } from '~/themes/types/config';
+interface DefaultConfigProps {
+  defaultPath: string;
+  fontFamily: string;
+  // miniDrawer: boolean;
+  container: boolean;
+  mode: ThemeMode;
+  presetColor: PresetColor;
+  themeDirection: ThemeDirection;
+  enableTrans: boolean;
+}
+
+const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 const config: DefaultConfigProps = {
   defaultPath: '/',
@@ -9,7 +21,7 @@ const config: DefaultConfigProps = {
   fontFamily: 'Roboto,sans-serif',
   // i18n: currentLang,
   container: false,
-  mode: 'light',
+  mode: isDarkMode ? 'dark' : 'light',
   presetColor: 'default',
   themeDirection: 'ltr',
   enableTrans: false,

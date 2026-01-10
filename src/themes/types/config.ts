@@ -18,17 +18,6 @@ export type CustomizationActionProps = {
   payload?: CustomizationProps;
 };
 
-export type DefaultConfigProps = {
-  defaultPath: string;
-  fontFamily: string;
-  // miniDrawer: boolean;
-  container: boolean;
-  mode: ThemeMode;
-  presetColor: PresetColor;
-  themeDirection: ThemeDirection;
-  enableTrans: boolean;
-};
-
 export type CustomizationProps = {
   defaultPath: string;
   fontFamily: string;

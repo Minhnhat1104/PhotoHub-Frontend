@@ -58,11 +58,11 @@ function Header() {
               </Typography>
             </Stack>
           </Link>
-          <ThemeToggle />
           {user ? (
             <>
               <NavList />
               <Stack direction="row" alignItems="center" spacing={1}>
+                <ThemeToggle />
                 <IconButton size="medium" onClick={() => setOpenWrite(true)}>
                   <UploadOutlined />
                 </IconButton>
@@ -71,6 +71,8 @@ function Header() {
             </>
           ) : (
             <Stack direction="row" alignItems="center" spacing={1}>
+              <ThemeToggle />
+
               <Button component={Link} variant="contained" to="/login">
                 Join
               </Button>
