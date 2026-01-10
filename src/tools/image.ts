@@ -1,4 +1,4 @@
-import { BASE_URL } from '~/config/config';
+import { BASE_URL } from '~/config/constants';
 
 export function downloadURI(uri: string, name: string) {
   var link = document.createElement('a');

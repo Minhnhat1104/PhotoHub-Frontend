@@ -9,8 +9,8 @@ import { useSnackbar } from '~/hooks/useSnackbar';
 import { Outlet, useNavigate } from 'react-router-dom';
 import LoadingCircular from '~/components/LoadingCircular';
 import { COOKIE_KEY, cookieService } from '~/tools/storages';
-import { BASE_URL } from '~/config/config';
 import { lowerCase } from 'lodash';
+import { BASE_URL } from '~/config/constants';
 
 interface AxiosContextProps {}
 

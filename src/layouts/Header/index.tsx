@@ -60,6 +60,7 @@ function Header() {
               </Typography>
             </Stack>
           </Link>
+          <ThemeToggle />
           {user ? (
             <>
               <NavList />
@@ -67,7 +68,6 @@ function Header() {
                 <IconButton size="medium" onClick={() => setOpenWrite(true)}>
                   <UploadOutlined />
                 </IconButton>
-                <ThemeToggle />
                 <Profile />
               </Stack>
             </>

@@ -1,7 +1,7 @@
 import { DownloadOutlined, Edit, Favorite, FavoriteBorderOutlined } from '@mui/icons-material';
 import { Avatar, IconButton, ImageListItem, ImageListItemBar, Slide, Stack, Typography } from '@mui/material';
 import React, { useRef, useState } from 'react';
-import { BASE_URL } from '~/config/config';
+import { BASE_URL } from '~/config/constants';
 import BlurIconButton from './BlurIconButton';
 import { downloadURI, getImageSrc, getUserAvatarSrc } from '~/tools/image';
 import { useImageMutation } from '~/hooks/Image/useImageMutation';

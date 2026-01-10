@@ -1,5 +1,5 @@
-import axios from "axios";
-import { BASE_URL } from "~/config/config";
+import axios from 'axios';
+import { BASE_URL } from '~/config/constants';
 
 const instance = axios.create({
   baseURL: BASE_URL,

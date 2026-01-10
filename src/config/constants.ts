@@ -10,3 +10,4 @@ export const LIST_TABLE_PAGE_SIZE_IAM = 200;
 export const LONG_RUNNING_TIME = 5 * 60 * 1000;
 export const DISPLAY_MODE_VIEW = 'DISPLAY_VIEW';
 export const DISPLAY_MODE_WRITE = 'DISPLAY_WRITE';
+export const BASE_URL = 'http://localhost:8000';
