@@ -1,29 +1,22 @@
 import { atom } from 'recoil';
-import { PresetColor, ThemeDirection, ThemeMode } from '~/themes/types/config';
+import { ThemeMode } from '~/themes/types/config';
+import { LOCAL_STORAGE_KEY, localStorageService } from '~/tools/storages';
 
 interface DefaultConfigProps {
-  defaultPath: string;
-  fontFamily: string;
-  // miniDrawer: boolean;
-  container: boolean;
   mode: ThemeMode;
-  presetColor: PresetColor;
-  themeDirection: ThemeDirection;
   enableTrans: boolean;
 }
 
-const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+const themeMode = localStorageService.get(LOCAL_STORAGE_KEY.THEME_MODE);
+const isDarkMode =
+  themeMode === 'dark' || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
+if (!themeMode) {
+  localStorageService.set(LOCAL_STORAGE_KEY.THEME_MODE, isDarkMode ? 'dark' : 'light');
+}
 
 const config: DefaultConfigProps = {
-  defaultPath: '/',
-  // fontFamily: `'Inter',sans-serif`,
-  // fontFamily: `'Noto Sans KR',sans-serif`,
-  fontFamily: 'Roboto,sans-serif',
-  // i18n: currentLang,
-  container: false,
   mode: isDarkMode ? 'dark' : 'light',
-  presetColor: 'default',
-  themeDirection: 'ltr',
   enableTrans: false,
 };
 

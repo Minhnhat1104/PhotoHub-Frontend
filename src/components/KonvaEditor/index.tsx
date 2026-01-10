@@ -29,6 +29,7 @@ const KonvaEditor: React.ForwardRefRenderFunction<KonvaEditorHandle, KonvaEditor
     contrast: 0,
   });
   const [filterType, setFilterType] = useState<FilterType>(FilterType.scale);
+  console.log('🚀 ~ KonvaEditor ~ filter:', filter?.brightness, filter?.contrast);
 
   useImperativeHandle(ref, () => ({
     getEditedImage: async () => {
@@ -125,7 +126,6 @@ const KonvaEditor: React.ForwardRefRenderFunction<KonvaEditorHandle, KonvaEditor
         value={filter[filterType]}
         onChange={(e, nVal) => handleOnChange(nVal, filterType)}
         aria-label="Small"
-        valueLabelDisplay="on"
       />
 
       <Tabs value={filterType} onChange={(e, nVal) => setFilterType(nVal)} variant="fullWidth">

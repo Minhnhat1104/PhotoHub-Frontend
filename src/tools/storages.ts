@@ -2,7 +2,7 @@ import Cookies, { CookieSetOptions } from 'universal-cookie';
 
 export enum LOCAL_STORAGE_KEY {
   // themes
-  THEME = 'theme-mode',
+  THEME_MODE = 'theme-mode',
 }
 
 export enum COOKIE_KEY {

@@ -39,7 +39,7 @@ declare module '@mui/material/Typography' {
 }
 
 export default function ThemeCustomization({ children }: ThemeCustomizationProps) {
-  const themeDirection = 'rtl';
+  const themeDirection = 'ltr';
   const presetColor = 'default';
   const fontFamily = 'Roboto,sans-serif';
   const { mode } = useRecoilValue(configState);
