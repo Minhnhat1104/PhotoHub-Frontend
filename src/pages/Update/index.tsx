@@ -15,7 +15,7 @@ function Update() {
 
   const { data } = useImage({ id: _id || '' });
 
-  const image = data || null;
+  const image: any = data || null;
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();

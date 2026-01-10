@@ -1,15 +1,18 @@
 import { DarkMode, DarkModeOutlined, LightModeOutlined } from '@mui/icons-material';
 import { IconButton, Switch } from '@mui/material';
 import React from 'react';
-import useConfig from '~/hooks/useConfig';
+import { useRecoilState } from 'recoil';
+import { configState } from '~/atoms/config';
 
 const ThemeToggle = () => {
-  const { mode, onChangeMode } = useConfig();
+  const [config, setConfig] = useRecoilState(configState);
 
   return (
     <>
-      <IconButton onClick={(e) => onChangeMode(mode === 'light' ? 'dark' : 'light')}>
-        {mode === 'light' ? <DarkModeOutlined /> : <LightModeOutlined />}
+      <IconButton
+        onClick={(e) => setConfig((prev) => ({ ...prev, mode: config?.mode === 'light' ? 'dark' : 'light' }))}
+      >
+        {config?.mode === 'light' ? <DarkModeOutlined /> : <LightModeOutlined />}
       </IconButton>
     </>
   );

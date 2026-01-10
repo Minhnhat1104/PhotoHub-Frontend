@@ -2,7 +2,6 @@ import { Box, Button, Container, IconButton, Stack, Typography, useTheme } from 
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '~/assets/img/favicon.ico';
 import React, { useState } from 'react';
-import useConfig from '~/hooks/useConfig';
 import { useAuthMutation } from '~/hooks/useAuthMutation';
 import { useRecoilState } from 'recoil';
 import { userState } from '~/atoms';
@@ -16,7 +15,6 @@ import UploadModal from '~/pages/UploadModal';
 function Header() {
   const [user, setUser] = useRecoilState(userState);
   const theme = useTheme();
-  const { mode, onChangeMode } = useConfig();
   const [openWrite, setOpenWrite] = useState<boolean>(false);
   const { mUserLogout } = useAuthMutation();
   const navigate = useNavigate();

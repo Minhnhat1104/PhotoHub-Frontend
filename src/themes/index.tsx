@@ -3,7 +3,6 @@ import { ReactNode, useMemo } from 'react';
 import { CssBaseline, GlobalStyles, StyledEngineProvider } from '@mui/material';
 import { createTheme, Theme, ThemeOptions, ThemeProvider, TypographyVariantsOptions } from '@mui/material/styles';
 
-import useConfig from '~/hooks/useConfig';
 import { CustomShadowProps } from '~/themes/types/theme';
 
 import componentsOverride from './overrides';
@@ -11,6 +10,8 @@ import Palette from './palette';
 import CustomShadows from './shadows';
 import Typography from './typography';
 import React from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { configState } from '~/atoms/config';
 
 type ThemeCustomizationProps = {
   children: ReactNode;
@@ -38,7 +39,10 @@ declare module '@mui/material/Typography' {
 }
 
 export default function ThemeCustomization({ children }: ThemeCustomizationProps) {
-  const { themeDirection, mode, presetColor, fontFamily } = useConfig();
+  const themeDirection = 'rtl';
+  const presetColor = 'default';
+  const fontFamily = 'Roboto,sans-serif';
+  const { mode } = useRecoilValue(configState);
   const theme: Theme = useMemo<Theme>(() => Palette(mode, presetColor), [mode, presetColor]);
 
   const themeTypography: TypographyVariantsOptions = useMemo<TypographyVariantsOptions>(

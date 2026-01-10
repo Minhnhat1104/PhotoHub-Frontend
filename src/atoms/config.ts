@@ -15,7 +15,7 @@ const config: DefaultConfigProps = {
   enableTrans: false,
 };
 
-export const configAtom = atom<DefaultConfigProps>({
+export const configState = atom<DefaultConfigProps>({
   key: 'configAtom',
   default: config,
 });
