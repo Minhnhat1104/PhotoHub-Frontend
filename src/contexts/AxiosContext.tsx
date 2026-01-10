@@ -61,6 +61,10 @@ const AxiosContext = ({}: AxiosContextProps) => {
         }
       }
     })();
+
+    return () => {
+      axios.interceptors.response.eject(id);
+    };
   }, []);
 
   useEffect(() => {

@@ -49,7 +49,7 @@ function ChangePassword() {
     <form onSubmit={handleSubmit(onSubmit)} style={{ width: 'fit-content' }}>
       <Stack
         sx={{
-          background: theme.palette.common.white,
+          background: theme.palette.background.paper,
           p: 3,
           borderRadius: 3,
           width: 600,
@@ -81,7 +81,7 @@ function ChangePassword() {
           {...register('newPassword2', { required: true, maxLength: 50 })}
         />
 
-        <Button type="submit" variant="contained">
+        <Button type="submit" variant="contained" loading={mChangePassword.isPending}>
           Reset password
         </Button>
       </Stack>

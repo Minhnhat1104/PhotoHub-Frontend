@@ -22,7 +22,7 @@ const Demo = () => {
         })}
       </List>
 
-      <Stack sx={{ flex: 1, minWidth: 0, ml: 3, background: theme.palette.common.white }}>
+      <Stack sx={{ flex: 1, minWidth: 0, ml: 3, background: theme.palette.background.paper }}>
         <Outlet />
       </Stack>
     </Stack>

@@ -46,7 +46,7 @@ function Register() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack
           sx={{
-            background: theme.palette.common.white,
+            background: theme.palette.background.paper,
             p: 3,
             borderRadius: 3,
             width: 600,

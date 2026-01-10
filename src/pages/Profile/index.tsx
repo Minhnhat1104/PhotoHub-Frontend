@@ -63,7 +63,7 @@ function Profile() {
     <form onSubmit={handleSubmit(onSubmit)} style={{ width: 'fit-content', margin: 'auto' }}>
       <Stack
         sx={{
-          background: theme.palette.common.white,
+          background: theme.palette.background.paper,
           p: 3,
           borderRadius: 3,
           width: 600,

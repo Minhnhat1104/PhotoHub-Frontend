@@ -120,7 +120,7 @@ export default function ThemeCustomization({ children }: ThemeCustomizationProps
           '--color-warning': theme.palette.warning.main,
           '--color-error': theme.palette.error.main,
           '--color-info': theme.palette.info.main,
-          '--color-white': theme.palette.common.white,
+          '--color-white': theme.palette.background.paper,
           '--color-border': theme.palette.divider,
           '--color-gray-100': theme.palette.grey[100],
           '--color-gray-200': theme.palette.grey[200],

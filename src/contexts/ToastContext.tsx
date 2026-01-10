@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 
 import { Stack, useTheme } from '@mui/material';
-import { ToastContainer } from 'react-toastify';
+import { Bounce, ToastContainer } from 'react-toastify';
 
 interface ToastContextProps {
   children: ReactNode;
@@ -25,7 +25,6 @@ const ToastContext = (props: ToastContextProps) => {
         display: 'flex',
         width: '100%',
         height: '100%',
-
         '&': {
           [ToastColorEnum.INFO]: theme.palette.info.main,
           [ToastColorEnum.SUCCESS]: theme.palette.success.main,
@@ -35,10 +34,8 @@ const ToastContext = (props: ToastContextProps) => {
           // '--toastify-color-progress-light': '#757575',
           '--toastify-toast-bd-radius': '4px',
         },
-
         '& .Toastify__toast-container': {
           '& .Toastify__toast': { padding: 0, minHeight: 0 },
-
           '& .Toastify__toast-body': {
             padding: 0,
           },
@@ -47,7 +44,20 @@ const ToastContext = (props: ToastContextProps) => {
     >
       {children}
 
-      <ToastContainer closeButton={false} />
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        // transition={Bounce}
+        closeButton={false}
+        icon={false}
+      />
     </Stack>
   );
 };

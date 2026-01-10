@@ -44,7 +44,7 @@ function ForgetPassword() {
     <form onSubmit={handleSubmit(onSubmit)} style={{ width: 'fit-content' }}>
       <Stack
         sx={{
-          background: theme.palette.common.white,
+          background: theme.palette.background.paper,
           p: 3,
           borderRadius: 3,
           width: 600,
