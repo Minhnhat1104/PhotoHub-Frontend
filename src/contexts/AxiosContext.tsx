@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useRef, useState } from 'react';
 import { useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { userState } from '~/atoms';
@@ -6,7 +6,7 @@ import axios from '~/tools/axios';
 import { default as originAxios } from 'axios';
 import jwt_decode from 'jwt-decode';
 import { useSnackbar } from '~/hooks/useSnackbar';
-import { Outlet, useNavigate } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import LoadingCircular from '~/components/LoadingCircular';
 import { COOKIE_KEY, cookieService } from '~/tools/storages';
 import { lowerCase } from 'lodash';
@@ -23,9 +23,11 @@ const AxiosContext = ({}: AxiosContextProps) => {
   const [user, setUser] = useRecoilState(userState);
   const { enqueueError, enqueueSuccess } = useSnackbar();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   const refreshToken = cookieService.get(COOKIE_KEY.REFRESH_TOKEN);
   const [isLoading, setIsLoading] = useState<boolean>(refreshToken ? true : false);
+  const initPath = useRef<string>(pathname);
 
   useEffect(() => {
     const id = axios.interceptors.response.use(
@@ -59,6 +61,8 @@ const AxiosContext = ({}: AxiosContextProps) => {
         } finally {
           setIsLoading(false);
         }
+      } else {
+        navigate('/login');
       }
     })();
 
