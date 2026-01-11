@@ -2,7 +2,6 @@ import React from 'react';
 import Home from '~/pages/Home';
 import Login from '~/pages/Login';
 import Register from '~/pages/Register';
-import Update from '~/pages/Update';
 import DefaultLayout from '~/layouts';
 import BackgroundLayout from '~/layouts/BackgroundLayout';
 import { Navigate, type RouteObject } from 'react-router-dom';
@@ -13,6 +12,7 @@ import Profile from '~/pages/Profile';
 import ForgetPassword from '~/pages/ForgetPassword';
 import ResetPassword from '~/pages/ResetPassword';
 import ChangePassword from '~/pages/ChangePassword';
+import AuthGuardContext from '~/contexts/AuthGuardContext';
 
 const publicRoutes: RouteObject[] = [
   {
@@ -38,41 +38,47 @@ const publicRoutes: RouteObject[] = [
             element: <ResetPassword />,
           },
           {
-            path: '/profile',
-            element: <Profile />,
-          },
-          {
             path: '/change-password',
             element: <ChangePassword />,
           },
         ],
       },
+      // Auth routes
       {
-        element: <DefaultLayout />,
+        element: <AuthGuardContext />,
         children: [
           {
-            path: '/update/:_id',
-            element: <Update />,
+            element: <DefaultLayout />,
+            children: [
+              {
+                path: '/explore',
+                element: <Home />,
+              },
+              {
+                path: '/my-photos',
+                element: <Home my />,
+              },
+              {
+                path: '/demo',
+                element: <Demo />,
+                children: demoRoute,
+              },
+              {
+                index: true,
+                element: <Navigate to="/explore" />,
+              },
+            ],
           },
           {
-            path: '/explore',
-            element: <Home />,
-          },
-          {
-            path: '/my-photos',
-            element: <Home my />,
-          },
-
-          {
-            path: '/demo',
-            element: <Demo />,
-            children: demoRoute,
+            element: <BackgroundLayout />,
+            children: [
+              {
+                path: '/profile',
+                element: <Profile />,
+              },
+            ],
           },
         ],
-      },
-      {
-        index: true,
-        element: <Navigate to="/explore" />,
       },
     ],
   },

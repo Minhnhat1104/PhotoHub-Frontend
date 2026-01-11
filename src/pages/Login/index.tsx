@@ -4,8 +4,8 @@ import { Box, Button, Checkbox, FormControlLabel, Stack, TextField, Typography, 
 import { useAuthMutation } from '~/hooks/useAuthMutation';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import PasswordInput from '~/components/PasswordInput';
-import { useSetRecoilState } from 'recoil';
-import { userState } from '~/atoms';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { loginPathState, userState } from '~/atoms';
 import { useSnackbar } from '~/hooks/useSnackbar';
 
 type LoginFormData = {
@@ -18,6 +18,7 @@ function Login() {
   const navigate = useNavigate();
   const { mUserLogin } = useAuthMutation();
   const { enqueueError } = useSnackbar();
+  const loginPath = useRecoilValue(loginPathState);
   const setUser = useSetRecoilState(userState);
 
   const {
@@ -39,7 +40,7 @@ function Login() {
             enqueueError('Invalid login response data!');
           }
           setUser(res?.data?.rows);
-          navigate('/explore');
+          navigate(loginPath);
         },
       }
     );

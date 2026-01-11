@@ -61,8 +61,6 @@ const AxiosContext = ({}: AxiosContextProps) => {
         } finally {
           setIsLoading(false);
         }
-      } else {
-        navigate('/login');
       }
     })();
 
