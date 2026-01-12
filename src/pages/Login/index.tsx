@@ -89,7 +89,7 @@ function Login() {
           </Stack>
         </Stack>
 
-        <Button type="submit" variant="contained" sx={{ mt: 2 }}>
+        <Button type="submit" variant="contained" sx={{ mt: 2 }} loading={mUserLogin.isPending}>
           Log in
         </Button>
         <Stack direction="row" spacing={1} alignItems="center" justifyContent="center" mt={3}>

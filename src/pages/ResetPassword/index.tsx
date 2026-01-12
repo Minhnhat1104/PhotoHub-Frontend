@@ -85,7 +85,7 @@ function ResetPassword() {
           {...register('password2', { required: true, maxLength: 50 })}
         />
 
-        <Button type="submit" variant="contained">
+        <Button type="submit" variant="contained" loading={mUserResetPassword.isPending}>
           Reset password
         </Button>
         <Button

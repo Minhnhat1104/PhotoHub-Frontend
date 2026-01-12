@@ -97,7 +97,7 @@ function Register() {
             error={!!errors.password}
             {...register('password', { required: true, maxLength: 50 })}
           />
-          <Button type="submit" variant="contained">
+          <Button type="submit" variant="contained" loading={mRegisterUser.isPending}>
             Create account
           </Button>
           <Stack

@@ -11,6 +11,7 @@ function AvatarWrite() {
   const [user, setUser] = useRecoilState(userState);
   const { getRootProps, getInputProps, open } = useDropzone({
     noClick: true,
+    accept: { 'image/*': [] },
     onDrop: async (acceptedFiles, fileRejections, event) => {
       const formData = new FormData();
       formData.append('photo', acceptedFiles[0]);
@@ -34,7 +35,7 @@ function AvatarWrite() {
 
       <div {...getRootProps()}>
         <input {...getInputProps()} />
-        <Button variant="contained" onClick={open}>
+        <Button variant="contained" onClick={open} loading={mSetAvatar.isPending}>
           Change avatar
         </Button>
       </div>
