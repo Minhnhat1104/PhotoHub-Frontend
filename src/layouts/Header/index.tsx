@@ -11,6 +11,7 @@ import ThemeToggle from '~/components/ThemeToggle';
 import Profile from './Profile';
 import NavList from './NavList';
 import UploadModal from '~/pages/UploadModal';
+import LanguageSelect from '~/components/LanguageSelect';
 
 function Header() {
   const [user, setUser] = useRecoilState(userState);
@@ -63,6 +64,7 @@ function Header() {
             <>
               <NavList />
               <Stack direction="row" alignItems="center" spacing={1}>
+                <LanguageSelect />
                 <ThemeToggle />
                 <IconButton size="medium" onClick={() => setOpenWrite(true)}>
                   <UploadOutlined />
@@ -72,6 +74,7 @@ function Header() {
             </>
           ) : (
             <Stack direction="row" alignItems="center" spacing={1}>
+              <LanguageSelect />
               <ThemeToggle />
 
               <Button component={Link} variant="contained" to="/login">

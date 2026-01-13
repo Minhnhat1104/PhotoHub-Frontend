@@ -7,6 +7,10 @@ import PasswordInput from '~/components/PasswordInput';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { loginPathState, userState } from '~/atoms';
 import { useSnackbar } from '~/hooks/useSnackbar';
+// import { t } from 'i18next';
+import { LangKey } from '~/lang/langKey';
+import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 type LoginFormData = {
   email: string;
@@ -17,6 +21,7 @@ function Login() {
   const theme = useTheme();
   const navigate = useNavigate();
   const { mUserLogin } = useAuthMutation();
+  const { t } = useTranslation();
   const { enqueueError } = useSnackbar();
   const loginPath = useRecoilValue(loginPathState);
   const setUser = useSetRecoilState(userState);
@@ -57,10 +62,10 @@ function Login() {
         }}
       >
         <Typography variant="h1" fontWeight={500} textAlign="center" mb={3}>
-          Welcome back
+          {t(LangKey.welcomeBack)}
         </Typography>
         <TextField
-          label="Email"
+          label={t(LangKey.email)}
           helperText={errors.email?.message}
           error={!!errors.email}
           type="email"
@@ -69,14 +74,14 @@ function Login() {
 
         <Stack width={1} mt={3}>
           <PasswordInput
-            label="Password"
+            label={t(LangKey.password)}
             helperText={errors.password?.message}
             error={!!errors.password}
             {...register('password', { required: true, maxLength: 50 })}
           />
 
           <Stack direction="row" width={1} alignItems="center" justifyContent="space-between" mt={1}>
-            <FormControlLabel control={<Checkbox defaultChecked size="small" />} label="Remember me" />
+            <FormControlLabel control={<Checkbox defaultChecked size="small" />} label={t(LangKey.rememberMe)} />
 
             <Typography
               color={theme.palette.primary.main}
@@ -84,19 +89,19 @@ function Login() {
               to="/forgot-password"
               sx={{ textAlign: 'right' }}
             >
-              Forgot password
+              {t(LangKey.forgotPassword)}
             </Typography>
           </Stack>
         </Stack>
 
         <Button type="submit" variant="contained" sx={{ mt: 2 }} loading={mUserLogin.isPending}>
-          Log in
+          {t(LangKey.logIn)}
         </Button>
         <Stack direction="row" spacing={1} alignItems="center" justifyContent="center" mt={3}>
-          <Typography>Don't have an account yet?</Typography>
+          <Typography>{t(LangKey.DontHaveAccounYet)}</Typography>
 
           <Typography color={theme.palette.primary.main} component={Link} to="/register">
-            Register one for free
+            {t(LangKey.RegisterOneForFree)}
           </Typography>
         </Stack>
       </Stack>
