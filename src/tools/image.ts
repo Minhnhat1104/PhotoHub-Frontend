@@ -13,7 +13,10 @@ export const getUserAvatarSrc = (id: number | string) => {
   return `${BASE_URL}/v1/user/avatar?id=${id}`;
 };
 
-export const getImageSrc = (imageId: number | string, opts: { v?: string | number; origin?: boolean }) => {
+export const getImageSrc = (
+  imageId: number | string,
+  opts: { v?: string | number; origin?: boolean; width?: number }
+) => {
   let url = `${BASE_URL}/v1/image/file/${imageId}`;
 
   const querys: string[] = [];
@@ -22,6 +25,9 @@ export const getImageSrc = (imageId: number | string, opts: { v?: string | numbe
   }
   if (opts?.origin) {
     querys.push(`origin=true`);
+  }
+  if (opts?.width) {
+    querys.push(`width=${opts?.width}px`);
   }
 
   if (querys?.length) {

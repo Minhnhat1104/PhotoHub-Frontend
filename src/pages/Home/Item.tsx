@@ -44,7 +44,7 @@ const Item = ({ data }: ItemProps) => {
     );
   };
 
-  const imageUrl = getImageSrc(data?.id, { v: data?.edit_at ? dayjs(data?.edit_at)?.unix() : undefined });
+  const currentTimeStamp = data?.edit_at ? dayjs(data?.edit_at)?.unix() : undefined;
 
   return (
     <>
@@ -60,9 +60,13 @@ const Item = ({ data }: ItemProps) => {
         onMouseLeave={() => setIsHover(false)}
       >
         <img
-          // srcSet={`${data.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-          srcSet={imageUrl}
-          src={imageUrl}
+          srcSet={`
+            ${getImageSrc(data?.id, { v: currentTimeStamp, width: 400 })} 400w,
+            ${getImageSrc(data?.id, { v: currentTimeStamp, width: 800 })} 800w,
+            ${getImageSrc(data?.id, { v: currentTimeStamp, width: 1600 })} 1600w
+          `}
+          sizes="(max-width: 768px) 100vw, 40vw"
+          src={getImageSrc(data?.id, { v: currentTimeStamp, width: 800 })}
           alt={data.name}
           loading="lazy"
         />
