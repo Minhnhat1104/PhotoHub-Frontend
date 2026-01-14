@@ -12,6 +12,8 @@ import Profile from './Profile';
 import NavList from './NavList';
 import UploadModal from '~/pages/UploadModal';
 import LanguageSelect from '~/components/LanguageSelect';
+import { t } from 'i18next';
+import { LangKey } from '~/lang/langKey';
 
 function Header() {
   const [user, setUser] = useRecoilState(userState);
@@ -55,8 +57,8 @@ function Header() {
           <Link to="/" style={{ textDecoration: 'none' }}>
             <Stack direction="row" alignItems="center" spacing={1} height={'100%'}>
               <img style={{ width: 40, height: 40 }} src={logo} alt="Logo" />
-              <Typography fontWeight="500" fontSize={24} fontStyle={'Italic'}>
-                Wallpaper
+              <Typography fontWeight="500" fontSize={24}>
+                Photohub
               </Typography>
             </Stack>
           </Link>
@@ -78,7 +80,7 @@ function Header() {
               <ThemeToggle />
 
               <Button component={Link} variant="contained" to="/login">
-                Join
+                {t(LangKey.join)}
               </Button>
             </Stack>
           )}

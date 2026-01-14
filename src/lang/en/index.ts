@@ -23,7 +23,7 @@ export const langEn: Record<LangKey, string> = {
   lastName: 'Last name',
   createAccount: 'createAccount',
   backToLogin: 'Back to login',
-  join: 'Loin',
+  join: 'Join',
   explore: 'Explore',
   myPhotos: 'My Photos',
   noData: 'No data',

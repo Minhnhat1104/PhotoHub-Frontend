@@ -12,7 +12,7 @@ const ThemeToggle = () => {
       <IconButton
         onClick={(e) => setConfig((prev) => ({ ...prev, mode: config?.mode === 'light' ? 'dark' : 'light' }))}
       >
-        {config?.mode === 'light' ? <DarkModeOutlined /> : <LightModeOutlined />}
+        {config?.mode === 'dark' ? <DarkModeOutlined /> : <LightModeOutlined />}
       </IconButton>
     </>
   );

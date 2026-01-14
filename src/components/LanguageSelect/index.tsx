@@ -22,7 +22,8 @@ import { getUserAvatarSrc } from '~/tools/image';
 import { LabelValue } from '~/types';
 import Flag from 'react-world-flags';
 import i18next from 'i18next';
-import { LanguageOutlined } from '@mui/icons-material';
+import { CheckCircle, LanguageOutlined } from '@mui/icons-material';
+import { LOCAL_STORAGE_KEY, localStorageService } from '~/tools/storages';
 
 interface LanguageOption extends LabelValue {
   countryFlag: string;
@@ -30,12 +31,12 @@ interface LanguageOption extends LabelValue {
 
 const languageOptions: LanguageOption[] = [
   {
-    label: 'Tiếng Anh',
+    label: 'English',
     value: 'en',
     countryFlag: 'us',
   },
   {
-    label: 'Tiếng Việt',
+    label: 'Vietnamese',
     value: 'vi',
     countryFlag: 'vn',
   },
@@ -69,12 +70,12 @@ const LanguageSelect = () => {
                 <List>
                   {languageOptions?.map((_item) => {
                     return (
-                      <ListItem disablePadding key={_item?.value}>
+                      <ListItem disablePadding key={_item?.value} sx={{ minWidth: 200 }}>
                         <ListItemButton
                           onClick={() => {
                             i18next.changeLanguage(_item?.value);
-                            // _item?.onClick();
-                            // onAfterClick && onAfterClick();
+                            localStorageService.set(LOCAL_STORAGE_KEY.LANG, _item?.value);
+                            window.location.reload();
                           }}
                           // selected={isActive}
                         >
@@ -82,6 +83,8 @@ const LanguageSelect = () => {
                             <Flag code={_item?.countryFlag} width={20} />
                           </ListItemIcon>
                           <ListItemText primary={_item.label} />
+
+                          {_item?.value === i18next.language && <CheckCircle fontSize="small" color="success" />}
                         </ListItemButton>
                       </ListItem>
                     );

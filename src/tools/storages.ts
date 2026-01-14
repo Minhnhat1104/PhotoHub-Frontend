@@ -3,6 +3,7 @@ import Cookies, { CookieSetOptions } from 'universal-cookie';
 export enum LOCAL_STORAGE_KEY {
   // themes
   THEME_MODE = 'theme-mode',
+  LANG = 'lang',
 }
 
 export enum COOKIE_KEY {

@@ -4,6 +4,22 @@ import i18n from 'i18next';
 import { useTranslation, initReactI18next } from 'react-i18next';
 import { langEn } from './en';
 import { langVi } from './vi';
+import { LOCAL_STORAGE_KEY, localStorageService } from '~/tools/storages';
+
+let lang = 'en';
+const browserLanguage = navigator.language;
+const lsLang = localStorageService.get(LOCAL_STORAGE_KEY.LANG);
+if (lsLang) {
+  lang = lsLang;
+} else if (['en-US', 'en']?.includes(browserLanguage)) {
+  lang = 'en';
+} else if (['vi-VN', 'vi']?.includes(browserLanguage)) {
+  lang = 'vi';
+}
+
+if (!lsLang) {
+  localStorageService.set(LOCAL_STORAGE_KEY.LANG, lang);
+}
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
@@ -19,7 +35,7 @@ i18n
         translation: langVi,
       },
     },
-    lng: 'en', // if you're using a language detector, do not define the lng option
+    lng: lang, // if you're using a language detector, do not define the lng option
     fallbackLng: 'en',
     debug: true,
 
