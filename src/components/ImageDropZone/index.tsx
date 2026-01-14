@@ -1,4 +1,5 @@
-import { Box, List, ListItem, Stack, Typography, useTheme } from '@mui/material';
+import { Delete, DeleteOutline } from '@mui/icons-material';
+import { Box, IconButton, List, ListItem, Stack, Typography, useTheme } from '@mui/material';
 import { t } from 'i18next';
 import React, { type CSSProperties, useEffect, useMemo } from 'react';
 import { type FileWithPath, useDropzone } from 'react-dropzone';
@@ -46,7 +47,7 @@ function ImageDropZone({ name, value, onChange, disabled = false }: ImageDropZon
     padding: '20px',
     borderWidth: 2,
     borderRadius: 2,
-    borderColor: '#eeeeee',
+    borderColor: theme.palette.grey['400'],
     borderStyle: 'dashed',
     backgroundColor: 'transparent',
     color: '#bdbdbd',
@@ -81,7 +82,7 @@ function ImageDropZone({ name, value, onChange, disabled = false }: ImageDropZon
       </div>
 
       {value?.length > 0 && (
-        <Stack spacing={1}>
+        <Stack spacing={2} mt={2}>
           {value.map((file: any) => (
             <Stack
               direction="row"
@@ -103,6 +104,16 @@ function ImageDropZone({ name, value, onChange, disabled = false }: ImageDropZon
               <Typography sx={{ ...ellipsisSx }}>
                 {file.path} - {file.size} bytes
               </Typography>
+              <IconButton
+                size="small"
+                color="error"
+                sx={{ ml: 'auto' }}
+                onClick={() => {
+                  onChange(value?.filter((_item) => _item?.path !== file?.path));
+                }}
+              >
+                <DeleteOutline />
+              </IconButton>
             </Stack>
           ))}
         </Stack>

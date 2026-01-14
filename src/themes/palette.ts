@@ -81,8 +81,8 @@ const Palette = (mode: ThemeMode, presetColor: PresetColor) => {
     palette: {
       mode,
       common: {
-        black: '#000',
-        white: '#fff',
+        black: mode === 'light' ? '#000' : '#fff',
+        white: mode === 'light' ? '#fff' : '#000',
       },
       ...paletteColor,
       text: {
