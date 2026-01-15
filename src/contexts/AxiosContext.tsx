@@ -11,6 +11,7 @@ import LoadingCircular from '~/components/LoadingCircular';
 import { COOKIE_KEY, cookieService } from '~/tools/storages';
 import { lowerCase } from 'lodash';
 import { BASE_URL } from '~/config/constants';
+import i18n from '~/lang';
 
 interface AxiosContextProps {}
 
@@ -91,6 +92,7 @@ const AxiosContext = ({}: AxiosContextProps) => {
           } else {
             config.headers['token'] = `Bearer ${user?.accessToken}`;
           }
+          config.headers['Accept-Language'] = i18n.language;
 
           return config;
         },
