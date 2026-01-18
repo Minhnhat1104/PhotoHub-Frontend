@@ -80,6 +80,11 @@ const publicRoutes: RouteObject[] = [
           },
         ],
       },
+
+      {
+        path: '/oauth2-fallback',
+        element: <Navigate to="/explore" />,
+      },
     ],
   },
 ];

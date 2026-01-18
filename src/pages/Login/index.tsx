@@ -11,6 +11,7 @@ import { useSnackbar } from '~/hooks/useSnackbar';
 import { LangKey } from '~/lang/langKey';
 import { useTranslation } from 'react-i18next';
 import i18next, { t } from 'i18next';
+import { BASE_URL } from '~/config/constants';
 
 type LoginFormData = {
   email: string;
@@ -95,6 +96,16 @@ function Login() {
 
         <Button type="submit" variant="contained" sx={{ mt: 2 }} loading={mUserLogin.isPending}>
           {t(LangKey.logIn)}
+        </Button>
+
+        <Button
+          onClick={() => {
+            console.log('🚀 ~ Login ~ BASE_URL:', BASE_URL, `${BASE_URL}/auth/google`);
+
+            window.location.href = `${BASE_URL}/v1/auth/google`;
+          }}
+        >
+          Sign in with google
         </Button>
         <Stack direction="row" spacing={1} alignItems="center" justifyContent="center" mt={3}>
           <Typography>{t(LangKey.DontHaveAccounYet)}</Typography>
