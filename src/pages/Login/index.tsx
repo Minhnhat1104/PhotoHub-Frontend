@@ -1,6 +1,16 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Box, Button, Checkbox, FormControlLabel, Stack, TextField, Typography, useTheme } from '@mui/material';
+import {
+  Box,
+  Button,
+  Checkbox,
+  Divider,
+  FormControlLabel,
+  Stack,
+  TextField,
+  Typography,
+  useTheme,
+} from '@mui/material';
 import { useAuthMutation } from '~/hooks/useAuthMutation';
 import { type SubmitHandler, useForm } from 'react-hook-form';
 import PasswordInput from '~/components/PasswordInput';
@@ -12,6 +22,7 @@ import { LangKey } from '~/lang/langKey';
 import { useTranslation } from 'react-i18next';
 import i18next, { t } from 'i18next';
 import { BASE_URL } from '~/config/constants';
+import { Google } from '@mui/icons-material';
 
 type LoginFormData = {
   email: string;
@@ -98,14 +109,16 @@ function Login() {
           {t(LangKey.logIn)}
         </Button>
 
-        <Button
-          onClick={() => {
-            console.log('🚀 ~ Login ~ BASE_URL:', BASE_URL, `${BASE_URL}/auth/google`);
+        <Divider sx={{ my: 2 }}>{t(LangKey.or)}</Divider>
 
+        <Button
+          variant="outlined"
+          onClick={() => {
             window.location.href = `${BASE_URL}/v1/auth/google`;
           }}
+          startIcon={<Google fontSize="small" />}
         >
-          Sign in with google
+          {t(LangKey.signInWithGoogle)}
         </Button>
         <Stack direction="row" spacing={1} alignItems="center" justifyContent="center" mt={3}>
           <Typography>{t(LangKey.DontHaveAccounYet)}</Typography>

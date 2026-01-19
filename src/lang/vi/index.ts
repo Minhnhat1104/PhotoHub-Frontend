@@ -51,4 +51,6 @@ export const langVi: Record<LangKey, string> = {
   rotation: 'Xoay',
   brightness: 'Độ sáng',
   contrast: 'Đọ tương phản',
+  or: 'Hoặc',
+  signInWithGoogle: 'Đăng nhập bằng Google',
 };

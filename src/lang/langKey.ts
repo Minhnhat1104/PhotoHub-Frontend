@@ -49,4 +49,6 @@ export enum LangKey {
   rotation = 'rotation',
   brightness = 'brightness',
   contrast = 'contrast',
+  or = 'or',
+  signInWithGoogle = 'signInWithGoogle',
 }

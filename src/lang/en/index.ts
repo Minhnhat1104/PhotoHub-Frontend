@@ -51,4 +51,6 @@ export const langEn: Record<LangKey, string> = {
   rotation: 'Rotation',
   brightness: 'Brightness',
   contrast: 'Contrast',
+  or: 'Or',
+  signInWithGoogle: 'Sign in with google',
 };
