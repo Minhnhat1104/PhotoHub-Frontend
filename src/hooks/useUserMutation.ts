@@ -16,6 +16,15 @@ export const useUserMutation = () => {
     },
   });
 
+  const mDeleteAvatar = useMutation({
+    mutationKey: [queryKeys.userDeleteAvatar],
+    mutationFn: async (params: any) => {
+      const res = await axios.delete('/v1/user/avatar', params);
+
+      return res;
+    },
+  });
+
   const mProfileUpdate = useMutation({
     mutationKey: [queryKeys.userUpdateProfile],
     mutationFn: async (params: any) => {
@@ -34,5 +43,5 @@ export const useUserMutation = () => {
     },
   });
 
-  return { mSetAvatar, mProfileUpdate, mChangePassword };
+  return { mSetAvatar, mProfileUpdate, mChangePassword, mDeleteAvatar };
 };

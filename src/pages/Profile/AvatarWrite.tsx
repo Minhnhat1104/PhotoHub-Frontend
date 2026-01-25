@@ -11,23 +11,16 @@ import { t } from 'i18next';
 import BaseAvatar from '~/components/BaseAvatar';
 import AvatarCrop from './AvatarCrop';
 import { Edit } from '@mui/icons-material';
+import ImageButton from '~/components/ImageButton';
 
 function AvatarWrite() {
   const theme = useTheme();
   const [user, setUser] = useRecoilState(userState);
-  const { mSetAvatar } = useUserMutation();
+  const { mSetAvatar, mDeleteAvatar } = useUserMutation();
 
   const [openAvatarWrite, setOpenAvatarWrite] = useState<{ isOpen: boolean; file: File | null }>({
     isOpen: false,
     file: null,
-  });
-  const { getRootProps, getInputProps, open } = useDropzone({
-    noClick: true,
-    accept: { 'image/*': [] },
-    onDrop: async (acceptedFiles, fileRejections, event) => {
-      setOpenAvatarWrite({ isOpen: true, file: acceptedFiles[0] });
-    },
-    maxFiles: 1,
   });
 
   const handleSave = ({ file, editFile }: { file: File; editFile: File | null }) => {
@@ -35,6 +28,10 @@ function AvatarWrite() {
 
     formData.append('photo', editFile || file);
     mSetAvatar.mutateAsync(formData);
+  };
+
+  const handleDelete = async () => {
+    const res = await mDeleteAvatar.mutateAsync({});
   };
 
   return (
@@ -45,14 +42,19 @@ function AvatarWrite() {
           style={{ width: 100, height: 100, objectFit: 'cover', borderRadius: 999 }}
         />
 
-        <div {...getRootProps()}>
-          <input {...getInputProps()} />
-          <Button variant="contained" onClick={open} loading={mSetAvatar.isPending} size="small">
-            {t(LangKey.changeAvatar)}
-          </Button>
-        </div>
+        <ImageButton
+          label={t(LangKey.changeAvatar)}
+          loading={mSetAvatar.isPending}
+          onDrop={(file) => setOpenAvatarWrite({ isOpen: true, file })}
+        />
 
-        <Button variant="contained" onClick={open} loading={mSetAvatar.isPending} size="small" color="secondary">
+        <Button
+          variant="contained"
+          onClick={handleDelete}
+          loading={mSetAvatar.isPending}
+          size="small"
+          color="secondary"
+        >
           Delete
         </Button>
       </Stack>

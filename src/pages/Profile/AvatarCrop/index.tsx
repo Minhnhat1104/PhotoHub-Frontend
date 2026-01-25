@@ -1,8 +1,9 @@
 import React, { useRef, useState } from 'react';
 import MiModal from '~/components/MiModal';
 import Cropper, { Area } from 'react-easy-crop';
-import { Box, Button, Stack } from '@mui/material';
-import { getCroppedFile } from './helper';
+import { Box, Button, Grid, Slider, Stack, Typography } from '@mui/material';
+import Output from './Output';
+import getCroppedImg from './helper';
 
 interface AvatarCropProps {
   isOpen: boolean;
@@ -11,19 +12,19 @@ interface AvatarCropProps {
   file: File;
 }
 
+export const CROP_AREA_ASPECT = 1 / 1;
+
 const AvatarCrop = ({ isOpen, onClose, file, onSave }: AvatarCropProps) => {
   const cropRef = useRef<Cropper>(null);
   const url = useRef(URL.createObjectURL(file))?.current;
 
   const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [rotation, setRotation] = useState(0);
   const [zoom, setZoom] = useState(1);
-  const [cropState, setCropState] = useState<{
+  const [cropArea, setCropArea] = useState<{
     croppedArea: Area;
     croppedAreaPixels: Area;
   } | null>(null);
-  const onCropComplete = (croppedArea: Area, croppedAreaPixels: Area) => {
-    setCropState({ croppedArea, croppedAreaPixels });
-  };
 
   return (
     <MiModal
@@ -39,13 +40,13 @@ const AvatarCrop = ({ isOpen, onClose, file, onSave }: AvatarCropProps) => {
             variant="contained"
             sx={{ width: 'fit-content', margin: 'auto' }}
             onClick={async () => {
-              const editFile = cropState?.croppedAreaPixels
-                ? await getCroppedFile(url, cropState?.croppedAreaPixels, 'avatar.jpg')
-                : null;
-              onSave({
-                file,
-                editFile,
-              });
+              if (cropArea?.croppedAreaPixels) {
+                const editFile = await getCroppedImg(url, cropArea?.croppedAreaPixels, rotation);
+                onSave({
+                  file,
+                  editFile,
+                });
+              }
             }}
           >
             Save
@@ -53,33 +54,64 @@ const AvatarCrop = ({ isOpen, onClose, file, onSave }: AvatarCropProps) => {
         </Stack>
       }
     >
-      <Stack sx={{ p: 2, height: 500 }}>
-        <Box sx={{ height: 400, position: 'relative' }}>
-          <Cropper
-            ref={cropRef}
-            image={url}
-            crop={crop}
-            zoom={zoom}
-            aspect={3 / 3}
-            onCropChange={setCrop}
-            onCropComplete={onCropComplete}
-            onZoomChange={setZoom}
-            cropShape="round"
-          />
-        </Box>
+      <Stack sx={{ p: 2 }}>
+        <Stack sx={{ width: 1 }}>
+          <Grid container spacing={3}>
+            <Grid size={{ xs: 12, sm: 8 }} sx={{ position: 'relative' }}>
+              <Cropper
+                ref={cropRef}
+                image={url}
+                crop={crop}
+                zoom={zoom}
+                aspect={CROP_AREA_ASPECT}
+                rotation={rotation}
+                onCropChange={setCrop}
+                onRotationChange={setRotation}
+                onCropAreaChange={(croppedArea, croppedAreaPixels) => setCropArea({ croppedArea, croppedAreaPixels })}
+                onZoomChange={setZoom}
+                showGrid={false}
+              />
+            </Grid>
+            <Grid size={{ xs: 12, sm: 4 }}>
+              {cropArea?.croppedArea && <Output croppedArea={cropArea?.croppedArea} image={url} />}
+            </Grid>
+          </Grid>
+        </Stack>
 
-        <input
-          type="range"
-          value={zoom}
-          min={0.5}
-          max={1.5}
-          step={0.1}
-          aria-labelledby="Zoom"
-          onChange={(e) => {
-            setZoom(Number(e.target.value));
-          }}
-          className="zoom-range"
-        />
+        <Grid container spacing={2} mt={2}>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <Typography>Zoom</Typography>
+              <Slider
+                value={zoom}
+                min={0.5}
+                max={1.5}
+                step={0.1}
+                aria-labelledby="Zoom"
+                onChange={(e, nVal) => {
+                  setZoom(nVal);
+                }}
+                valueLabelDisplay="auto"
+              />
+            </Stack>
+          </Grid>
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <Typography>Rotate</Typography>
+              <Slider
+                value={rotation}
+                min={-180}
+                max={180}
+                step={1}
+                aria-labelledby="rotation"
+                onChange={(e, nVal) => {
+                  setRotation(nVal);
+                }}
+                valueLabelDisplay="auto"
+              />
+            </Stack>
+          </Grid>
+        </Grid>
       </Stack>
     </MiModal>
   );
