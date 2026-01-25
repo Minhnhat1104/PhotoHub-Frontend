@@ -5,28 +5,22 @@ import './style.css';
 interface OutputProps {
   image: string;
   croppedArea: Area;
+  rotation: number;
 }
 
-const Output = ({ image, croppedArea }: OutputProps) => {
-  const scale = 100 / croppedArea.width;
-  console.log('🚀 ~ Output ~ croppedArea:', croppedArea);
-  const transform = {
-    x: `${-croppedArea.x * scale}%`,
-    y: `${-croppedArea.y * scale}%`,
-    scale,
-    width: 'calc(100% + 0.5px)',
-    height: 'auto',
-  };
+const getRotatedSize = (width: number, height: number, rotation: number) => {
+  const rad = (rotation * Math.PI) / 180;
 
-  const imageStyle = {
-    transform: `translate3d(${transform.x}, ${transform.y}, 0) scale3d(${transform.scale},${transform.scale},1)`,
-    width: transform.width,
-    height: transform.height,
+  return {
+    width: Math.abs(width * Math.cos(rad)) + Math.abs(height * Math.sin(rad)),
+    height: Math.abs(width * Math.sin(rad)) + Math.abs(height * Math.cos(rad)),
   };
+};
 
+const Output = ({ image }: OutputProps) => {
   return (
     <div className="output" style={{ paddingBottom: `${100 / CROP_AREA_ASPECT}%` }}>
-      <img src={image} alt="" style={imageStyle} />
+      <img src={image} alt="" style={{ width: '100%' }} />
     </div>
   );
 };

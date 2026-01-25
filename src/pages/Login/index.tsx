@@ -54,6 +54,7 @@ function Login() {
         onSuccess: (res) => {
           if (!res?.data?.rows?.id) {
             enqueueError('Invalid login response data!');
+            return;
           }
           setUser(res?.data?.rows);
           navigate(loginPath);

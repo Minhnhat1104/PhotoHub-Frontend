@@ -16,22 +16,22 @@ import ImageButton from '~/components/ImageButton';
 function AvatarWrite() {
   const theme = useTheme();
   const [user, setUser] = useRecoilState(userState);
-  const { mSetAvatar, mDeleteAvatar } = useUserMutation();
+  const { mDeleteAvatar } = useUserMutation();
 
   const [openAvatarWrite, setOpenAvatarWrite] = useState<{ isOpen: boolean; file: File | null }>({
     isOpen: false,
     file: null,
   });
 
-  const handleSave = ({ file, editFile }: { file: File; editFile: File | null }) => {
-    const formData = new FormData();
-
-    formData.append('photo', editFile || file);
-    mSetAvatar.mutateAsync(formData);
-  };
-
   const handleDelete = async () => {
-    const res = await mDeleteAvatar.mutateAsync({});
+    const res = await mDeleteAvatar.mutateAsync(
+      {},
+      {
+        onSuccess(data, variables, context) {
+          window.location.reload();
+        },
+      }
+    );
   };
 
   return (
@@ -42,16 +42,12 @@ function AvatarWrite() {
           style={{ width: 100, height: 100, objectFit: 'cover', borderRadius: 999 }}
         />
 
-        <ImageButton
-          label={t(LangKey.changeAvatar)}
-          loading={mSetAvatar.isPending}
-          onDrop={(file) => setOpenAvatarWrite({ isOpen: true, file })}
-        />
+        <ImageButton label={t(LangKey.changeAvatar)} onDrop={(file) => setOpenAvatarWrite({ isOpen: true, file })} />
 
         <Button
           variant="contained"
           onClick={handleDelete}
-          loading={mSetAvatar.isPending}
+          loading={mDeleteAvatar.isPending}
           size="small"
           color="secondary"
         >
@@ -64,7 +60,6 @@ function AvatarWrite() {
           isOpen={openAvatarWrite?.isOpen}
           file={openAvatarWrite?.file}
           onClose={() => setOpenAvatarWrite({ isOpen: false, file: null })}
-          onSave={handleSave}
         />
       )}
     </>

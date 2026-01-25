@@ -1,22 +1,27 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import MiModal from '~/components/MiModal';
 import Cropper, { Area } from 'react-easy-crop';
 import { Box, Button, Grid, Slider, Stack, Typography } from '@mui/material';
 import Output from './Output';
-import getCroppedImg from './helper';
+import ImageButton from '~/components/ImageButton';
+import { useUserMutation } from '~/hooks/useUserMutation';
+import { getCroppedImgFile, getCroppedImgURL, ImageInfo } from './helper';
+import _ from 'lodash';
 
 interface AvatarCropProps {
   isOpen: boolean;
   onClose: () => void;
-  onSave: (opts: { file: File; editFile: File | null }) => void;
   file: File;
 }
 
 export const CROP_AREA_ASPECT = 1 / 1;
 
-const AvatarCrop = ({ isOpen, onClose, file, onSave }: AvatarCropProps) => {
+const AvatarCrop = ({ isOpen, onClose, file }: AvatarCropProps) => {
   const cropRef = useRef<Cropper>(null);
-  const url = useRef(URL.createObjectURL(file))?.current;
+  const { mSetAvatar } = useUserMutation();
+
+  const [url, setUrl] = useState(() => URL.createObjectURL(file));
+  const [previewURL, setPreviewURL] = useState('');
 
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [rotation, setRotation] = useState(0);
@@ -25,6 +30,25 @@ const AvatarCrop = ({ isOpen, onClose, file, onSave }: AvatarCropProps) => {
     croppedArea: Area;
     croppedAreaPixels: Area;
   } | null>(null);
+
+  const previewDebounce = useCallback(
+    _.debounce(async (opts: ImageInfo) => {
+      const nUrl = await getCroppedImgURL(opts);
+
+      await setPreviewURL(nUrl || '');
+    }, 300),
+    []
+  );
+
+  useEffect(() => {
+    if (cropArea?.croppedAreaPixels) {
+      previewDebounce({
+        imageSrc: url,
+        pixelCrop: cropArea?.croppedAreaPixels,
+        rotation,
+      });
+    }
+  }, [cropArea, zoom, rotation, crop]);
 
   return (
     <MiModal
@@ -41,13 +65,26 @@ const AvatarCrop = ({ isOpen, onClose, file, onSave }: AvatarCropProps) => {
             sx={{ width: 'fit-content', margin: 'auto' }}
             onClick={async () => {
               if (cropArea?.croppedAreaPixels) {
-                const editFile = await getCroppedImg(url, cropArea?.croppedAreaPixels, rotation);
-                onSave({
-                  file,
-                  editFile,
+                const editFile = await getCroppedImgFile({
+                  imageSrc: url,
+                  pixelCrop: cropArea?.croppedAreaPixels,
+                  rotation,
+                });
+
+                const formData = new FormData();
+
+                formData.append('photo', editFile || file);
+                mSetAvatar.mutateAsync(formData, {
+                  onSuccess(data, variables, context) {
+                    onClose && onClose();
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 500);
+                  },
                 });
               }
             }}
+            loading={mSetAvatar.isPending}
           >
             Save
           </Button>
@@ -55,9 +92,13 @@ const AvatarCrop = ({ isOpen, onClose, file, onSave }: AvatarCropProps) => {
       }
     >
       <Stack sx={{ p: 2 }}>
-        <Stack sx={{ width: 1 }}>
-          <Grid container spacing={3}>
-            <Grid size={{ xs: 12, sm: 8 }} sx={{ position: 'relative' }}>
+        <ImageButton label="Choose image" onDrop={(file) => setUrl(URL.createObjectURL(file))} />
+
+        <Grid container spacing={3} mt={2}>
+          <Grid size={{ xs: 12, sm: 8 }}>
+            <Typography sx={{ mb: 1, fontWeight: 500 }}>Original image</Typography>
+
+            <Stack sx={{ position: 'relative' }} width={1} height={300}>
               <Cropper
                 ref={cropRef}
                 image={url}
@@ -69,23 +110,25 @@ const AvatarCrop = ({ isOpen, onClose, file, onSave }: AvatarCropProps) => {
                 onRotationChange={setRotation}
                 onCropAreaChange={(croppedArea, croppedAreaPixels) => setCropArea({ croppedArea, croppedAreaPixels })}
                 onZoomChange={setZoom}
-                showGrid={false}
               />
-            </Grid>
-            <Grid size={{ xs: 12, sm: 4 }}>
-              {cropArea?.croppedArea && <Output croppedArea={cropArea?.croppedArea} image={url} />}
-            </Grid>
+            </Stack>
           </Grid>
-        </Stack>
+          <Grid size={{ xs: 12, sm: 4 }}>
+            <Typography sx={{ mb: 1, fontWeight: 500 }}>After crop</Typography>
+            {cropArea?.croppedArea && (
+              <Output croppedArea={cropArea?.croppedArea} image={previewURL} rotation={rotation} />
+            )}
+          </Grid>
+        </Grid>
 
         <Grid container spacing={2} mt={2}>
           <Grid size={{ xs: 12, sm: 6 }}>
             <Stack direction="row" alignItems="center" spacing={2}>
-              <Typography>Zoom</Typography>
+              <Typography sx={{ fontWeight: 500 }}>Zoom</Typography>
               <Slider
                 value={zoom}
-                min={0.5}
-                max={1.5}
+                min={1}
+                max={3}
                 step={0.1}
                 aria-labelledby="Zoom"
                 onChange={(e, nVal) => {
@@ -97,11 +140,11 @@ const AvatarCrop = ({ isOpen, onClose, file, onSave }: AvatarCropProps) => {
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }}>
             <Stack direction="row" alignItems="center" spacing={2}>
-              <Typography>Rotate</Typography>
+              <Typography sx={{ fontWeight: 500 }}>Rotate</Typography>
               <Slider
                 value={rotation}
-                min={-180}
-                max={180}
+                min={0}
+                max={360}
                 step={1}
                 aria-labelledby="rotation"
                 onChange={(e, nVal) => {

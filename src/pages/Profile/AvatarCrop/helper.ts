@@ -28,12 +28,15 @@ function rotateSize(width: number, height: number, rotation: number) {
 /**
  * This function was adapted from the one in the ReadMe of https://github.com/DominicTobias/react-image-crop
  */
-export default async function getCroppedImg(
-  imageSrc: string,
-  pixelCrop: Area,
-  rotation = 0,
-  flip = { horizontal: false, vertical: false }
-) {
+
+export interface ImageInfo {
+  imageSrc: string;
+  pixelCrop: Area;
+  rotation: number;
+}
+async function getCroppedImgBlob(options: ImageInfo) {
+  const { imageSrc, pixelCrop, rotation } = options;
+
   const image = await createImage(imageSrc);
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
@@ -54,7 +57,7 @@ export default async function getCroppedImg(
   // translate canvas context to a central location to allow rotating and flipping around the center
   ctx.translate(bBoxWidth / 2, bBoxHeight / 2);
   ctx.rotate(rotRad);
-  ctx.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1);
+  // ctx.scale(flip.horizontal ? -1 : 1, flip.vertical ? -1 : 1);
   ctx.translate(-image.width / 2, -image.height / 2);
 
   // draw rotated image
@@ -96,12 +99,24 @@ export default async function getCroppedImg(
   // });
 
   // As a file
-  const file = new Promise<File>((resolve, reject) => {
+  const blob = new Promise<Blob>((resolve, reject) => {
     croppedCanvas.toBlob((blob) => {
       if (!blob) return reject(new Error('Canvas is empty'));
-      resolve(new File([blob], 'avatar.png', { type: 'image/png' }));
+      resolve(blob);
     }, 'image/jpeg');
   });
 
-  return file;
+  return blob;
 }
+
+export const getCroppedImgURL = async (opts: ImageInfo) => {
+  try {
+    const blob = await getCroppedImgBlob(opts);
+
+    return blob ? URL.createObjectURL(blob) : '';
+  } catch (e) {}
+};
+export const getCroppedImgFile = async (opts: ImageInfo) => {
+  const blob = await getCroppedImgBlob(opts);
+  return blob ? new File([blob], 'avatar.png', { type: 'image/png' }) : null;
+};
